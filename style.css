@@ -1,0 +1,79 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(221, 221, 221);
+    margin: 0;
+}
+
+.contenedor {
+    background-color: white;
+    padding: 10px;
+    padding-bottom: 20px ;
+    border-radius: 20px;
+    width: 500px;
+    box-shadow: 5px 5px 5px rgba(29, 29, 29, 0.185);
+
+}
+
+.contenedor h1 {
+    font-family: roboto light;
+    font-size: 5em;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: rgb(1, 1, 61);
+    text-align: center;
+}
+
+.inputs {
+    display: grid;
+    grid-template-columns: 0.9fr 1fr;
+    gap: 15px 10px;
+    align-items: center;
+    margin-top: 25px;
+    
+}
+.formulario label {
+    font-family: sans-serif;
+    font-size: 2.8em;
+    text-align: right;
+    
+}
+
+.formulario input {
+    padding: 14px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.olvide {
+    font-family: Arial, sans-serif light;
+    font-size: 0.8em;
+    color: rgb(130, 130, 221);
+    text-decoration: none;
+    display: block;
+    text-align: right;
+    padding-right: 65px;
+}
+
+#ingresar {
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+    grid-column: span 2;
+    padding: 10px;
+    background-color: rgb(50, 98, 255);
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+.contenedor p{
+    text-align: center;
+    margin-top: 10px;
+}
