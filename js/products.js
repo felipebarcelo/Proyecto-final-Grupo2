@@ -1,5 +1,5 @@
 const params = new URLSearchParams(window.location.search);
-const catId = params.get("cat");// || localStorage.getItem("catID");
+const catId = params.get("cat");      // || localStorage.getItem("catID");
 
 const grid = document.getElementById("product-grid");
 const titleEl = document.getElementById("category-title");
