@@ -1,78 +1,73 @@
 body {
     display: flex;
     justify-content: center;
-    align-items: center;
     height: 100vh;
-    background-color: rgb(221, 221, 221);
+    background-color: #FBE1B6;
     margin: 0;
 }
 
 .contenedor {
     background-color: white;
-    padding: 10px;
-    padding-bottom: 20px ;
-    border-radius: 20px;
-    width: 500px;
+    padding: 10%;
+    border-radius: 3%;
+    width: 40vw;
+    height: 88vh;
     box-shadow: 5px 5px 5px rgba(29, 29, 29, 0.185);
-    background-color: rgb(228, 195, 180);
+    background-color: rgb(255, 255, 255);
 
 }
 
 .contenedor h1 {
-    font-family: roboto light;
-    font-size: 4em;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    color: rgba(133, 24, 10, 0.822);
+    font-family: roboto;
+    font-size: 3.5em;
+    margin-top: 4%;
+    margin-bottom: 8%;
+    color: rgba(0, 0, 0, 0.822);
     text-align: center;
 }
 
 .inputs {
     display: grid;
-    grid-template-columns: 0.9fr 1fr;
-    gap: 15px 10px;
     align-items: center;
     margin-top: 25px;
-    
 }
 
 .formulario label {
-    font-family: roboto light;
-    font-size: 1.8em;
-    text-align: center;
-    
+    font-family: roboto;
+    font-size: 1.2em;
+    margin-top: 3vh ;
+    margin-bottom: 1vh;
 }
 
 .formulario input {
     padding: 14px;
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.199);
     border-radius: 5px;
 }
 
 .olvide {
-    font-family: Arial, sans-serif light;
+    font-family: sans-serif;
     font-size: 0.8em;
-    color: rgb(130, 130, 221);
+    color: #FF9E02;
     text-decoration: none;
     display: block;
-    text-align: right;
-    padding-right: 65px;
+    text-align: center;
+    margin-top: auto;
 }
 
 #ingresar {
-    width: 200px;
-    margin: 0 auto;
-    display: block;
-    grid-column: span 2;
-    padding: 10px;
-    background-color: rgb(100, 36, 17);
+    width: 100%;
+    padding: 3%;
+    background-color: #FF9E02;
     color: white;
-    font-size: 2em;
-    font-weight: bold;
+    font-size: 1em;
+    font-family: sans-serif;
     border: none;
     border-radius: 5px;
+    box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.164);
     cursor: pointer;
-    margin-top: 40px;
+    margin-top: 15%;
+    margin-bottom: 10%;
 }
 
 .contenedor p{
@@ -80,4 +75,64 @@ body {
     margin-top: 10px;
 }
 
+p {
+    color: rgba(0, 0, 0, 0.384);
+}
 
+p > a{
+    text-decoration: none;
+    color: #FF9E02;
+}
+
+@media (max-width: 768px){
+    .contenedor{
+        width:80vw;
+        height: auto;
+        padding: 10%;
+    }
+
+    .contenedor h1 {
+    font-size: 2.8em;
+    margin-top: 2%;
+    margin-bottom: 6%;
+  }
+
+  .formulario label {
+    font-size: 1em;
+  }
+
+  #ingresar {
+    margin-top: 10%;
+    margin-bottom: 8%;
+  }
+}
+
+@media (max-width: 480px){
+    .contenedor {
+    width: 90vw;
+    padding: 5%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .contenedor h1 {
+    font-size: 2em;
+    margin-top: 5%;
+    margin-bottom: 10%;
+  }
+
+  .formulario label {
+    font-size: 0.9em;
+  }
+
+  .formulario input {
+    padding: 10px;  
+  }
+
+  #ingresar {
+    font-size: 0.9em;
+    padding: 12px;
+    margin-top: 12%;
+    margin-bottom: 8%;
+  }
+}
