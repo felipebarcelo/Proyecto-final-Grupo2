@@ -36,10 +36,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const user = document.getElementById("username").value;
       const pass = document.getElementById("password").value;
 
-      // Validación: solo verifica que los campos no estén vacíos
       if (user.trim() !== "" && pass.trim() !== "") {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("username", user.trim());
+        localStorage.setItem("userEmail", user.trim()); // agregamos: guardamos email/usuario para el dropdown
+
         console.log("Sesión guardada, redirigiendo a index.html");
         window.location.replace("index.html");
       } else {
@@ -48,12 +49,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+
   // --- LOGOUT ---
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", function () {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("username");
+      localStorage.removeItem("userEmail"); // agregamos: limpiamos el email/usuario mostrado
+
       console.log("Sesión cerrada, redirigiendo a login.html");
       window.location.replace("login.html");
     });
@@ -71,45 +75,43 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
-// --- Sincronizamos email y control de sesión ---
+// agregamos: mostrar el email/usuario en el dropdown
 document.addEventListener("DOMContentLoaded", () => {
-  const email = localStorage.getItem("userEmail") || "";
+  const userEmailMenu = document.getElementById("userEmailMenu");
+  const user = localStorage.getItem("userEmail"); // clave que guardamos al hacer login
 
-  // mostramos el correo en la barra o en el menú, según corresponda
-  const emailBar = document.getElementById("userEmail");
-  const emailMenu = document.getElementById("userEmailMenu");
+  if (userEmailMenu && user) {
+    userEmailMenu.textContent = user;
+  }
+});
+
+// --- Sincronizamos email mostrado y botones de menú (agregamos) ---
+document.addEventListener("DOMContentLoaded", () => {
+  // mostramos el correo/usuario en barra o menú
+  const email = localStorage.getItem("userEmail") || localStorage.getItem("username") || "";
+  const emailBar = document.getElementById("userEmail");     // opcional: span en la barra
+  const emailMenu = document.getElementById("userEmailMenu"); // span dentro del dropdown
+
   if (emailBar) emailBar.textContent = email;
   if (emailMenu) emailMenu.textContent = email;
 
-  // unificamos la acción de cerrar sesión
+  // unificamos logout (barra y menú)
   const doLogout = () => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("username");
     localStorage.removeItem("userEmail");
     window.location.replace("login.html");
   };
 
-  // conectamos botones de logout (barra y menú)
-  const logoutBtn = document.getElementById("logout-btn");
   const logoutBtnMenu = document.getElementById("logout-btn-menu");
-  if (logoutBtn) logoutBtn.addEventListener("click", doLogout);
   if (logoutBtnMenu) logoutBtnMenu.addEventListener("click", doLogout);
 
-  // conectamos la opción "Mi perfil" para redirigir siempre
+  // conectamos "Mi perfil" para redirigir siempre
   const goProfile = document.getElementById("go-profile");
   if (goProfile) {
     goProfile.addEventListener("click", (e) => {
-      e.preventDefault();
+      e.preventDefault();                 // evitamos interferencias
       window.location.href = "my-profile.html";
-    });
-  }
-});
-// conectamos "Mi perfil" para navegar siempre (agregamos)
-document.addEventListener("DOMContentLoaded", () => {
-  const goProfile = document.getElementById("go-profile");
-  if (goProfile) {
-    goProfile.addEventListener("click", (e) => {
-      e.preventDefault();                  // evitamos interferencias
-      window.location.href = "my-profile.html"; // redirigimos al perfil
     });
   }
 });

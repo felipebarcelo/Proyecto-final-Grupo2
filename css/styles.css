@@ -188,3 +188,13 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+.dropdown-item-text {
+  font-weight: 400;
+
+  color: #6c757d;
+
+  white-space: nowrap;
+
+  padding: .75rem 1rem .5rem;
+}
