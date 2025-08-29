@@ -27,6 +27,7 @@
 </head>
 
 <body>
+  <script src="js/auth.js"></script>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -37,6 +38,10 @@
         <ul class="navbar-nav w-100 justify-content-between">
           <li class="nav-item">
             <a class="nav-link" href="index.html">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <span id="user-display" style="color:white; margin-right:10px; display:none;"></span>
+            <button class="btn btn-danger" id="logout-btn">Cerrar sesión</button>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="categories.html">Categorías</a>

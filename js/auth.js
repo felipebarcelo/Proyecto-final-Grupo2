@@ -38,9 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Validación: solo verifica que los campos no estén vacíos
       if (user.trim() !== "" && pass.trim() !== "") {
-        localStorage.setItem("isLoggedIn", "true");
-        console.log("Sesión guardada, redirigiendo a index.html");
-        window.location.replace("index.html");
+  localStorage.setItem("isLoggedIn", "true");
+  localStorage.setItem("username", user.trim());
+  console.log("Sesión guardada, redirigiendo a index.html");
+  window.location.replace("index.html");
       } else {
         alert("Completa usuario y contraseña");
       }
@@ -52,8 +53,21 @@ document.addEventListener("DOMContentLoaded", function () {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", function () {
       localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("username");
       console.log("Sesión cerrada, redirigiendo a login.html");
       window.location.replace("login.html");
     });
+  }
+
+  // Mostrar nombre de usuario en la navbar
+  const userDisplay = document.getElementById("user-display");
+  if (userDisplay) {
+    const username = localStorage.getItem("username");
+    if (username) {
+      userDisplay.textContent = username;
+      userDisplay.style.display = "inline";
+    } else {
+      userDisplay.style.display = "none";
+    }
   }
 });
