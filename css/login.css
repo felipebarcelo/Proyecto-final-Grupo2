@@ -1,138 +1,165 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 body {
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    background-color: #FBE1B6;
-    margin: 0;
+  background-color: #fddfb3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .contenedor {
-    background-color: white;
-    padding: 10%;
-    border-radius: 3%;
-    width: 40vw;
-    height: 88vh;
-    box-shadow: 5px 5px 5px rgba(29, 29, 29, 0.185);
-    background-color: rgb(255, 255, 255);
-
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 60px 80px;
+  width: 750px;
+  height: 800px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .contenedor h1 {
-    font-family: roboto;
-    font-size: 3.5em;
-    margin-top: 4%;
-    margin-bottom: 8%;
-    color: rgba(0, 0, 0, 0.822);
-    text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  font-weight: bold;
 }
 
-.inputs {
-    display: grid;
-    align-items: center;
-    margin-top: 25px;
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.formulario label {
-    font-family: roboto;
-    font-size: 1.2em;
-    margin-top: 3vh ;
-    margin-bottom: 1vh;
+.inputs label {
+  text-align: left;
+  display: block;
+  font-size: 0.9rem;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  color: #333;
 }
 
-.formulario input {
-    padding: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.199);
-    border-radius: 5px;
+.inputs input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.inputs input:focus {
+  border-color: #f79b28;
 }
 
 .olvide {
-    font-family: sans-serif;
-    font-size: 0.8em;
-    color: #FF9E02;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    margin-top: auto;
+  display: block;
+  font-size: 0.8rem;
+  color: #f79b28;
+  text-align: center;
+  text-decoration: none;
+  margin-top: -15px;
+
 }
 
 #ingresar {
-    width: 100%;
-    padding: 3%;
-    background-color: #FF9E02;
-    color: white;
-    font-size: 1em;
-    font-family: sans-serif;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.164);
-    cursor: pointer;
-    margin-top: 15%;
-    margin-bottom: 10%;
+  background-color: #f79b28;
+  color: white;
+  padding: 18px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s;
+  margin-top: 15%;
+  margin-bottom: 10%;
 }
 
-.contenedor p{
-    text-align: center;
-    margin-top: 10px;
+#ingresar:hover {
+  background-color: #e88c1f;
 }
 
 p {
-    color: rgba(0, 0, 0, 0.384);
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #3333339d;
 }
 
-p > a{
-    text-decoration: none;
-    color: #FF9E02;
+p a {
+  color: #f79b28;
+  text-decoration: none;
 }
 
-@media (max-width: 768px){
-    .contenedor{
-        width:80vw;
-        height: auto;
-        padding: 10%;
-    }
-
-    .contenedor h1 {
-    font-size: 2.8em;
-    margin-top: 2%;
-    margin-bottom: 6%;
+@media (max-width:1024px){
+  main{
+    height: 100%;
   }
 
-  .formulario label {
-    font-size: 1em;
-  }
-
-  #ingresar {
-    margin-top: 10%;
-    margin-bottom: 8%;
-  }
 }
-
-@media (max-width: 480px){
-    .contenedor {
-    width: 90vw;
-    padding: 5%;
-    height: auto;
-    border-radius: 10px;
+@media (max-width: 480px) {
+  .contenedor {
+    max-width: 90%;
+    padding: 30px 20px;
+    border-radius: 15px;
+    max-height: 550px;
   }
 
   .contenedor h1 {
-    font-size: 2em;
-    margin-top: 5%;
-    margin-bottom: 10%;
+    font-size: 1.5rem;
   }
 
-  .formulario label {
-    font-size: 0.9em;
+  .formulario {
+    gap: 15px;
   }
 
-  .formulario input {
-    padding: 10px;  
+  .inputs label {
+    font-size: 0.75rem;
+  }
+
+  .inputs input {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .olvide {
+    font-size: 0.7rem;
   }
 
   #ingresar {
-    font-size: 0.9em;
     padding: 12px;
-    margin-top: 12%;
-    margin-bottom: 8%;
+    font-size: 0.85rem;
+  }
+
+  p {
+    font-size: 0.7rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contenedor {
+    min-height: 600px;
   }
 }
