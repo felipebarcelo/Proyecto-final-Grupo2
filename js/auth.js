@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Validación: solo verifica que los campos no estén vacíos
       if (user.trim() !== "" && pass.trim() !== "") {
-  localStorage.setItem("isLoggedIn", "true");
-  localStorage.setItem("username", user.trim());
-  console.log("Sesión guardada, redirigiendo a index.html");
-  window.location.replace("index.html");
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", user.trim());
+        console.log("Sesión guardada, redirigiendo a index.html");
+        window.location.replace("index.html");
       } else {
         alert("Completa usuario y contraseña");
       }
@@ -69,5 +69,47 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       userDisplay.style.display = "none";
     }
+  }
+});
+// --- Sincronizamos email y control de sesión ---
+document.addEventListener("DOMContentLoaded", () => {
+  const email = localStorage.getItem("userEmail") || "";
+
+  // mostramos el correo en la barra o en el menú, según corresponda
+  const emailBar = document.getElementById("userEmail");
+  const emailMenu = document.getElementById("userEmailMenu");
+  if (emailBar) emailBar.textContent = email;
+  if (emailMenu) emailMenu.textContent = email;
+
+  // unificamos la acción de cerrar sesión
+  const doLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
+    window.location.replace("login.html");
+  };
+
+  // conectamos botones de logout (barra y menú)
+  const logoutBtn = document.getElementById("logout-btn");
+  const logoutBtnMenu = document.getElementById("logout-btn-menu");
+  if (logoutBtn) logoutBtn.addEventListener("click", doLogout);
+  if (logoutBtnMenu) logoutBtnMenu.addEventListener("click", doLogout);
+
+  // conectamos la opción "Mi perfil" para redirigir siempre
+  const goProfile = document.getElementById("go-profile");
+  if (goProfile) {
+    goProfile.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "my-profile.html";
+    });
+  }
+});
+// conectamos "Mi perfil" para navegar siempre (agregamos)
+document.addEventListener("DOMContentLoaded", () => {
+  const goProfile = document.getElementById("go-profile");
+  if (goProfile) {
+    goProfile.addEventListener("click", (e) => {
+      e.preventDefault();                  // evitamos interferencias
+      window.location.href = "my-profile.html"; // redirigimos al perfil
+    });
   }
 });
