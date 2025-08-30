@@ -89,8 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
   // mostramos el correo/usuario en barra o menú
   const email = localStorage.getItem("userEmail") || localStorage.getItem("username") || "";
-  const emailBar = document.getElementById("userEmail");     // opcional: span en la barra
-  const emailMenu = document.getElementById("userEmailMenu"); // span dentro del dropdown
+  const emailBar = document.getElementById("userEmail");
+  const emailMenu = document.getElementById("userEmailMenu");
 
   if (emailBar) emailBar.textContent = email;
   if (emailMenu) emailMenu.textContent = email;
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const goProfile = document.getElementById("go-profile");
   if (goProfile) {
     goProfile.addEventListener("click", (e) => {
-      e.preventDefault();                 // evitamos interferencias
+      e.preventDefault();
       window.location.href = "my-profile.html";
     });
   }
