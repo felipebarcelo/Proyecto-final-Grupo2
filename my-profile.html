@@ -24,6 +24,11 @@
       }
     }
   </style>
+  <script>
+  if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.replace("login.html");
+  }
+</script>
 </head>
 
 <body>
