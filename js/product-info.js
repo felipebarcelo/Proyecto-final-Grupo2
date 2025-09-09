@@ -11,11 +11,11 @@ fetch(API_URL)
         <section id="grid">
         
             <div class="imagen-principal">
-            <img src="${product.images[0]}">
+            <img id="imagenprincipal" src="${product.images[0]}">
             </div>
 
             <div class="galeria">
-            ${product.images.map(img => `<img src="${img}">`).join("")}
+            ${product.images.map((img) => `<img class="fotos" src="${img}">`).join("")}
             </div>
         
             <div class="titulo-desc">
@@ -31,13 +31,23 @@ fetch(API_URL)
             <button>Comprar</button>            
             </div>
             </div>
-        </section>`
+        </section>
+        `;
+
+        const imagenPrincipal = document.getElementById("imagenprincipal");
+        const fotos = document.querySelectorAll(".galeria img");
+
+        fotos.forEach((fotos) => {
+            fotos.addEventListener("click", () => {
+                if (fotos.src !== imagenPrincipal.src) {
+                    imagenPrincipal.src = fotos.src;
+                }
+            });
+        });
     })
     .catch(error => {
         container.innerHTML = "<p>Error al cargar el producto.</p>";
-    })
-
-
+    });
 
 
 
