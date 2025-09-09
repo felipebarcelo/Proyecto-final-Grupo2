@@ -30,6 +30,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span>${p.soldCount} vendidos</span>
                 `;
 
+                //Local Storage y Redireccion a producto especifico
+                productCard.addEventListener("click", () =>{
+                    localStorage.setItem("idProducto", p.id);
+                    window.location.href = "product-info.html";
+                })
+
                 grid.appendChild(productCard);
             });
 
