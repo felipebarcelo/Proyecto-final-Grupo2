@@ -1,10 +1,13 @@
 main, body {
     background-color: rgba(252, 240, 210, 0.884);
 }
+main {
+    margin-top: 3%;
+}
 
 .container-productos a {
-    font-size: 2rem;
-    margin-left: 11vw;
+    font-size: 1.5rem;
+    margin-left: 0;
     text-decoration: none;
 
 }
@@ -22,8 +25,9 @@ main, body {
     padding-bottom: 5%;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(163, 163, 163, 0.979);
-    margin-bottom: 10vh;
+    margin-bottom: 0;
 }
+
 
 .imagen-principal {
     grid-column: 1 / 2; 

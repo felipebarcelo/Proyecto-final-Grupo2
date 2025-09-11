@@ -4,13 +4,17 @@ const container = document.getElementById("product-container");
 
 const API_URL = "https://japceibal.github.io/emercado-api/products/" + productId + ".json";
 
+
 fetch(API_URL)
     .then(res => res.json())
     .then(product => {
         container.innerHTML = `
         <section id="grid">
-        
+
             <div class="imagen-principal">
+            <div class="cat">
+            <a href="products.html">&lt; ${product.category}</a>
+            </div>
             <img id="imagenprincipal" src="${product.images[0]}">
             </div>
 
@@ -48,7 +52,3 @@ fetch(API_URL)
     .catch(error => {
         container.innerHTML = "<p>Error al cargar el producto.</p>";
     });
-
-
-
-
