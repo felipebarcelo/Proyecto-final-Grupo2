@@ -61,6 +61,26 @@
     <div class="product-container" id="product-container">
       <h1 id="titulo">Productos</h1>
       <p id="status-msg" class="muted"></p>
+      <section class="controls-toolbar container mb-4">
+        <div class="controls-left">
+          <label for="priceMin" class="form-label m-0 me-2">Precio mínimo</label>
+          <input type="number" id="priceMin" class="form-control" placeholder="Mín. USD">
+
+          <label for="priceMax" class="form-label m-0 ms-3 me-2">Precio máximo</label>
+          <input type="number" id="priceMax" class="form-control" placeholder="Máx. USD">
+
+          <button id="btnPriceFilter" class="btn btn-primary ms-3">Filtrar</button>
+          <button id="btnPriceClear" class="btn btn-outline-secondary ms-2">Limpiar</button>
+        </div>
+
+        <div class="controls-right btn-group" role="group" aria-label="Orden">
+          <button id="sortAsc" type="button" class="btn btn-outline-primary">$ ↑</button>
+          <button id="sortDesc" type="button" class="btn btn-outline-primary">$ ↓</button>
+          <button id="sortRel" type="button" class="btn btn-outline-primary">⚡ Rel</button>
+        </div>
+      </section>
+
+
       <div id="product-grid" class="product-grid"></div>
     </div>
   </main>
