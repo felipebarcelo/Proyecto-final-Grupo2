@@ -4,7 +4,7 @@ const container = document.getElementById("product-container");
 
 const API_URL = "https://japceibal.github.io/emercado-api/products/" + productId + ".json";
 
-
+//fetch para traer los productos
 fetch(API_URL)
     .then(res => res.json())
     .then(product => {
@@ -37,7 +37,7 @@ fetch(API_URL)
             </div>
         </section>
         `;
-
+        //Para poder cambiar la foto principal por una de la galeria 
         const imagenPrincipal = document.getElementById("imagenprincipal");
         const fotos = document.querySelectorAll(".galeria img");
 
@@ -49,6 +49,7 @@ fetch(API_URL)
             });
         });
     })
+    //Si hay error
     .catch(error => {
         container.innerHTML = "<p>Error al cargar el producto.</p>";
     });
