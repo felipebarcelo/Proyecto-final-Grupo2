@@ -13,7 +13,7 @@ fetch(API_URL)
 
             <div class="imagen-principal">
             <div class="cat">
-            <a href="products.html">&lt; ${product.category}</a>
+            <a href="categories.html">&lt; ${product.category}</a>
             </div>
             <img id="imagenprincipal" src="${product.images[0]}">
             </div>
