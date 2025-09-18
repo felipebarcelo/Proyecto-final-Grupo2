@@ -25,10 +25,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 productCard.innerHTML = `
                     <img src="${p.image}" alt="${p.name}">
                     <h2>${p.name}</h2>
-                    <p>${p.description}</p>
+                    <p>${p.description}</p>del eve
                     <span>Precio: ${p.currency} ${p.cost}</span>
                     <span>${p.soldCount} vendidos</span>
                 `;
+
+
 
                 grid.appendChild(productCard);
             });
@@ -99,6 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="btn btn-buy" type="button">Comprar</button>
         </div>
       `;
+            //Local Storage y Redireccion a producto especifico
+            card.addEventListener("click", () => {
+            localStorage.setItem("idProducto", p.id);
+            window.location.href = "./product-info.html";
+            })
+
             grid.appendChild(card);
         });
     }
