@@ -52,6 +52,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 <span>Precio: ${p.currency} ${formattedPrice}</span>
                 <span>${p.soldCount} vendidos</span>
             `;
+            
+            productCard.addEventListener("click", () => {
+            localStorage.setItem("idProducto", p.id);
+            window.location.href = "./product-info.html";
+            })
 
             grid.appendChild(productCard);
         });
