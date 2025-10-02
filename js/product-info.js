@@ -13,7 +13,7 @@ fetch(API_URL)
 
             <div class="imagen-principal">
             <div class="cat">
-            <a href="products.html">&lt; ${product.category}</a>
+            <a href="products.html"><i class="fa-solid fa-arrow-left"></i> ${product.category}</a>
             </div>
             <img id="imagenprincipal" src="${product.images[0]}">
             </div>
@@ -53,3 +53,44 @@ fetch(API_URL)
     .catch(error => {
         container.innerHTML = "<p>Error al cargar el producto.</p>";
     });
+
+
+//Fetch comentarios
+
+
+const API_COMMENTS = "https://japceibal.github.io/emercado-api/products_comments/" + productId + ".json";
+
+fetch(API_COMMENTS)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+
+    const nuevaSection = document.createElement('section');
+    nuevaSection.className = "container mt-4";
+
+    const row = document.createElement("div");
+    row.className = "row g-3"
+
+    data.forEach(comentario => {
+      const col = document.createElement("div");
+      col.className = "col-md-6 col-lg-4";
+
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm">
+        <div class="card-body">
+        <div class="mb-2 text-warning">
+                  ${'<i class="fa-solid fa-star" style="color: #FFD43B;"></i>'.repeat(comentario.score)}${'<i class="fa-regular fa-star fa-sm" style="color: #FFD43B;"></i>'.repeat(5 - comentario.score)}
+        </div>
+          <h5 class="card-title">${comentario.user}</h5>
+          <p class="card-text">${comentario.description}</p>
+          <p class="card-text">
+            <small class="text-muted">${comentario.dateTime}</small>
+          </p>
+      `;
+
+      row.appendChild(col)
+    });
+    nuevaSection.appendChild(row);
+    document.getElementById("comentarios").appendChild(nuevaSection);
+  })
+  .catch(err => console.error(err));
