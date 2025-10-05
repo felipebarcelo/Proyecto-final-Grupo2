@@ -54,6 +54,55 @@ fetch(API_URL)
         container.innerHTML = "<p>Error al cargar el producto.</p>";
     });
 
+///RELACIONADOS/// 
+document.addEventListener("DOMContentLoaded", function () {
+                             // Obtiene el ID de la categoría desde localStorage, por defecto 101 si no existe
+    const catId = localStorage.getItem("catID") || 101;
+
+    const grid = document.getElementById("related-products");
+
+    const API_URL = "https://japceibal.github.io/emercado-api/cats_products/" + catId + ".json";
+
+    fetch(API_URL)
+        .then(function (res) {
+            if (!res.ok) {
+                throw new Error("HTTP " + res.status);
+            }
+            return res.json();
+        })
+        .then(function (data) {
+            grid.innerHTML = ""; 
+            var list = Array.isArray(data.products) ? data.products : [];
+
+            list.forEach(function (p) {
+                const productCard = document.createElement("div");
+                productCard.classList.add("product-card");
+
+                productCard.innerHTML = `
+                    <img src="${p.image}" alt="${p.name}">
+                    <h2>${p.name}</h2>
+                `;
+                productCard.addEventListener("click", () => {
+                    localStorage.setItem("idProducto", p.id); 
+                    localStorage.setItem("catID", catId); 
+                    window.location.href = "product-info.html"; 
+                });
+
+
+                grid.appendChild(productCard);
+            });
+
+            if (list.length === 0) {
+                grid.innerHTML = "<p>No hay productos para mostrar.</p>";
+            }
+        })
+        .catch(function (err) {
+            console.error(err);
+            grid.innerHTML = "<p style='color:#b00'>No se pudieron cargar los productos.</p>";
+        });
+});
+
+
 
 //Fetch comentarios
 
