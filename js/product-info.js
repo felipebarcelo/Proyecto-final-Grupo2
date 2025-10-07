@@ -56,50 +56,50 @@ fetch(API_URL)
 
 ///RELACIONADOS/// 
 document.addEventListener("DOMContentLoaded", function () {
-                             // Obtiene el ID de la categoría desde localStorage, por defecto 101 si no existe
-    const catId = localStorage.getItem("catID") || 101;
+  // Obtiene el ID de la categoría desde localStorage, por defecto 101 si no existe
+  const catId = localStorage.getItem("catID") || 101;
 
-    const grid = document.getElementById("related-products");
+  const grid = document.getElementById("related-products");
 
-    const API_URL = "https://japceibal.github.io/emercado-api/cats_products/" + catId + ".json";
+  const API_URL = "https://japceibal.github.io/emercado-api/cats_products/" + catId + ".json";
 
-    fetch(API_URL)
-        .then(function (res) {
-            if (!res.ok) {
-                throw new Error("HTTP " + res.status);
-            }
-            return res.json();
-        })
-        .then(function (data) {
-            grid.innerHTML = ""; 
-            var list = Array.isArray(data.products) ? data.products : [];
+  fetch(API_URL)
+    .then(function (res) {
+      if (!res.ok) {
+        throw new Error("HTTP " + res.status);
+      }
+      return res.json();
+    })
+    .then(function (data) {
+      grid.innerHTML = "";
+      var list = Array.isArray(data.products) ? data.products : [];
 
-            list.forEach(function (p) {
-                const productCard = document.createElement("div");
-                productCard.classList.add("product-card");
+      list.forEach(function (p) {
+        const productCard = document.createElement("div");
+        productCard.classList.add("product-card");
 
-                productCard.innerHTML = `
+        productCard.innerHTML = `
                     <img src="${p.image}" alt="${p.name}">
                     <h2>${p.name}</h2>
                 `;
-                productCard.addEventListener("click", () => {
-                    localStorage.setItem("idProducto", p.id); 
-                    localStorage.setItem("catID", catId); 
-                    window.location.href = "product-info.html"; 
-                });
-
-
-                grid.appendChild(productCard);
-            });
-
-            if (list.length === 0) {
-                grid.innerHTML = "<p>No hay productos para mostrar.</p>";
-            }
-        })
-        .catch(function (err) {
-            console.error(err);
-            grid.innerHTML = "<p style='color:#b00'>No se pudieron cargar los productos.</p>";
+        productCard.addEventListener("click", () => {
+          localStorage.setItem("idProducto", p.id);
+          localStorage.setItem("catID", catId);
+          window.location.href = "product-info.html";
         });
+
+
+        grid.appendChild(productCard);
+      });
+
+      if (list.length === 0) {
+        grid.innerHTML = "<p>No hay productos para mostrar.</p>";
+      }
+    })
+    .catch(function (err) {
+      console.error(err);
+      grid.innerHTML = "<p style='color:#b00'>No se pudieron cargar los productos.</p>";
+    });
 });
 
 
@@ -120,11 +120,17 @@ fetch(API_COMMENTS)
     const row = document.createElement("div");
     row.className = "row g-3"
 
-    data.forEach(comentario => {
-      const col = document.createElement("div");
-      col.className = "col-md-6 col-lg-4";
+    if (data.length === 0) {
+      const p = document.createElement("p")
+      p.textContent = "Aun no hay opiniones sobre este producto."
+      nuevaSection.appendChild(p);
+    } else {
 
-      col.innerHTML = `
+      data.forEach(comentario => {
+        const col = document.createElement("div");
+        col.className = "col-md-6 col-lg-4";
+
+        col.innerHTML = `
         <div class="card h-100 shadow-sm">
         <div class="card-body">
         <div class="mb-2 text-warning">
@@ -137,12 +143,15 @@ fetch(API_COMMENTS)
           </p>
       `;
 
-      row.appendChild(col)
-    });
-    nuevaSection.appendChild(row);
+        row.appendChild(col)
+      });
+
+      nuevaSection.appendChild(row);
+    }
     document.getElementById("comentarios").appendChild(nuevaSection);
   })
   .catch(err => console.error(err));
+
 
 // DESAFÍATE 
 const stars = document.querySelectorAll(".star-rating i"); // agarro las estrellas
