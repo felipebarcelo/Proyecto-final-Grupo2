@@ -164,8 +164,102 @@ main {
     }
 }
 
+.star-rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
 
+.star-rating .fa {
+    font-size: 2em;
+    color: #ffd700;
+    cursor: pointer;
+    margin-right: 4px;
+    transition: color 0.2s;
+}
 
+.star-rating .fa:hover,
+.star-rating .fa:focus {
+    color: #ff9800;
+}
 
+.card.calificacion {
+    box-shadow: 0 2px 8px rgba(255, 170, 43, 0.2);
+    border-radius: 10px;
+    border: 1px solid #ffd700;
+}
 
+.card.calificacion .card-title {
+        color: #000;
+}
+
+.card.calificacion .form-control {
+    border-radius: 8px;
+    border: 1px solid #ffd700;
+}
+
+.card.calificacion .btn-primary {
+            background-color: #ffa600;
+            color: #fff !important;
+    border: none;
+    font-weight: bold;
+}
+
+.card.calificacion .btn-primary:disabled {
+    background-color: #ffd700;
+    color: #fff;
+    opacity: 0.7;
+}
+
+.btn-calificacion {
+    background-color: #ffa600 !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.btn-calificacion:disabled {
+    background-color: #ffa600 !important;
+    color: #fff !important;
+    opacity: 0.7;
+}
+
+/* Contenedor de productos relacionados */
+.related-products-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 por fila */
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Cada tarjeta de producto relacionado */
+.related-products-container .product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+  background: #fff;
+}
+
+.related-products-container .product-card:hover {
+  transform: scale(1.05);
+}
+
+/* Imagen más chica */
+.related-products-container .product-card img {
+  width: 100%;
+  max-height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Título más chico */
+.related-products-container .product-card h2 {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #333;
+}
 

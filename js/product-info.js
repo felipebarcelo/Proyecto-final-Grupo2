@@ -6,14 +6,14 @@ const API_URL = "https://japceibal.github.io/emercado-api/products/" + productId
 
 //fetch para traer los productos
 fetch(API_URL)
-    .then(res => res.json())
-    .then(product => {
-        container.innerHTML = `
+  .then(res => res.json())
+  .then(product => {
+    container.innerHTML = `
         <section id="grid">
 
             <div class="imagen-principal">
             <div class="cat">
-            <a href="products.html">&lt; ${product.category}</a>
+            <a href="products.html"><i class="fa-solid fa-arrow-left"></i> ${product.category}</a>
             </div>
             <img id="imagenprincipal" src="${product.images[0]}">
             </div>
@@ -37,19 +37,172 @@ fetch(API_URL)
             </div>
         </section>
         `;
-        //Para poder cambiar la foto principal por una de la galeria 
-        const imagenPrincipal = document.getElementById("imagenprincipal");
-        const fotos = document.querySelectorAll(".galeria img");
+    //Para poder cambiar la foto principal por una de la galeria 
+    const imagenPrincipal = document.getElementById("imagenprincipal");
+    const fotos = document.querySelectorAll(".galeria img");
 
-        fotos.forEach((fotos) => {
-            fotos.addEventListener("click", () => {
-                if (fotos.src !== imagenPrincipal.src) {
-                    imagenPrincipal.src = fotos.src;
-                }
-            });
-        });
-    })
-    //Si hay error
-    .catch(error => {
-        container.innerHTML = "<p>Error al cargar el producto.</p>";
+    fotos.forEach((fotos) => {
+      fotos.addEventListener("click", () => {
+        if (fotos.src !== imagenPrincipal.src) {
+          imagenPrincipal.src = fotos.src;
+        }
+      });
     });
+  })
+  //Si hay error
+  .catch(error => {
+    container.innerHTML = "<p>Error al cargar el producto.</p>";
+  });
+
+///RELACIONADOS/// 
+document.addEventListener("DOMContentLoaded", function () {
+                             // Obtiene el ID de la categoría desde localStorage, por defecto 101 si no existe
+    const catId = localStorage.getItem("catID") || 101;
+
+    const grid = document.getElementById("related-products");
+
+    const API_URL = "https://japceibal.github.io/emercado-api/cats_products/" + catId + ".json";
+
+    fetch(API_URL)
+        .then(function (res) {
+            if (!res.ok) {
+                throw new Error("HTTP " + res.status);
+            }
+            return res.json();
+        })
+        .then(function (data) {
+            grid.innerHTML = ""; 
+            var list = Array.isArray(data.products) ? data.products : [];
+
+            list.forEach(function (p) {
+                const productCard = document.createElement("div");
+                productCard.classList.add("product-card");
+
+                productCard.innerHTML = `
+                    <img src="${p.image}" alt="${p.name}">
+                    <h2>${p.name}</h2>
+                `;
+                productCard.addEventListener("click", () => {
+                    localStorage.setItem("idProducto", p.id); 
+                    localStorage.setItem("catID", catId); 
+                    window.location.href = "product-info.html"; 
+                });
+
+
+                grid.appendChild(productCard);
+            });
+
+            if (list.length === 0) {
+                grid.innerHTML = "<p>No hay productos para mostrar.</p>";
+            }
+        })
+        .catch(function (err) {
+            console.error(err);
+            grid.innerHTML = "<p style='color:#b00'>No se pudieron cargar los productos.</p>";
+        });
+});
+
+
+
+//Fetch comentarios
+
+
+const API_COMMENTS = "https://japceibal.github.io/emercado-api/products_comments/" + productId + ".json";
+
+fetch(API_COMMENTS)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+
+    const nuevaSection = document.createElement('section');
+    nuevaSection.className = "container mt-4";
+
+    const row = document.createElement("div");
+    row.className = "row g-3"
+
+    data.forEach(comentario => {
+      const col = document.createElement("div");
+      col.className = "col-md-6 col-lg-4";
+
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm">
+        <div class="card-body">
+        <div class="mb-2 text-warning">
+                  ${'<i class="fa-solid fa-star" style="color: #FFD43B;"></i>'.repeat(comentario.score)}${'<i class="fa-regular fa-star fa-sm" style="color: #FFD43B;"></i>'.repeat(5 - comentario.score)}
+        </div>
+          <h5 class="card-title">${comentario.user}</h5>
+          <p class="card-text">${comentario.description}</p>
+          <p class="card-text">
+            <small class="text-muted">${comentario.dateTime}</small>
+          </p>
+      `;
+
+      row.appendChild(col)
+    });
+    nuevaSection.appendChild(row);
+    document.getElementById("comentarios").appendChild(nuevaSection);
+  })
+  .catch(err => console.error(err));
+
+// DESAFÍATE 
+const stars = document.querySelectorAll(".star-rating i"); // agarro las estrellas
+const txt = document.querySelector(".calificacion textarea"); // agarro el textarea
+const btn = document.querySelector(".btn-calificacion"); // agarro el botón
+const getList = () => document.querySelector("#comentarios .row") || document.querySelector("#comentarios"); // donde muestro los comentarios
+const KEY = `product-comments-${productId}`; // clave para guardar en localStorage
+let score = 0; // acá guardo el puntaje
+
+// función para pintar las estrellas
+function showStars(n) {
+  stars.forEach((s, i) => {
+    s.className = i < n ? "fa fa-star" : "fa fa-star-o";
+    s.style.color = "#FFD43B";
+  });
+}
+
+// función para agregar una card con la opinión
+function addCard(c) {
+  const list = getList();
+  if (!list) return;
+  list.insertAdjacentHTML("afterbegin", `
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <div class="mb-2 text-warning">${"★".repeat(c.score)}${"☆".repeat(5 - c.score)}</div>
+          <h5 class="card-title">${c.user}</h5>
+          <p>${c.description}</p>
+          <small class="text-muted">${c.dateTime}</small>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+// cuando cargo la página muestro lo que estaba guardado
+(JSON.parse(localStorage.getItem(KEY) || "[]")).forEach(addCard);
+
+// cuando hago click en una estrella guardo el valor y habilito el form
+stars.forEach((s, i) => s.addEventListener("click", () => {
+  score = i + 1;
+  showStars(score);
+  txt.disabled = false;
+  btn.disabled = false;
+}));
+
+// cuando aprieto el botón creo el comentario y lo guardo
+btn?.addEventListener("click", () => {
+  const description = (txt.value || "").trim();
+  if (!score || !description) return alert("Faltan datos");
+  const d = new Date();
+  const c = {
+    user: localStorage.getItem("userEmail") || "Tú",
+    dateTime: d.toLocaleString(),
+    score,
+    description
+  };
+  addCard(c); // lo muestro
+  const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
+  arr.push(c);
+  localStorage.setItem(KEY, JSON.stringify(arr)); // lo guardo
+  score = 0; showStars(0); txt.value = ""; txt.disabled = true; btn.disabled = true; // limpio todo
+});
