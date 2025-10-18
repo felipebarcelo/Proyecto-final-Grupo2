@@ -10,13 +10,13 @@
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/3133a6305d.js" crossorigin="anonymous"></script>
   <script>
     if (localStorage.getItem("isLoggedIn") !== "true") {
       window.location.replace("login.html");
     }
   </script>
 </head>
-
 <body>
   <script src="js/auth.js"></script>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
@@ -55,8 +55,12 @@
             </ul>
           </li>
         </ul>
+                  <button id="themeBtn" class="btn btn-outline-secondary ms-3">
+        <i class="fa-solid fa-moon" style="color: #ffffff;"></i>
+      </button>
       </div>
     </div>
+
   </nav>
 
   <main class="pb-5">
@@ -125,6 +129,7 @@
   <script src="js/init.js"></script>
   <script src="js/categories.js"></script>
   <script src="js/auth.js"></script>
+  
 
 </body>
 

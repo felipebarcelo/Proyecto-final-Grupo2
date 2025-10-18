@@ -94,6 +94,8 @@ h1 {
   font-weight: bold;
 }
 
+
+
 /* Responsive */
 @media (max-width: 1024px) {
   header h1 {
@@ -204,6 +206,10 @@ h1 {
   border: 1px solid #ffffff !important;
   font-weight: 700;
   border-radius: 6px;
+}
+
+#themeBtn {
+  background-color: black !important;
 }
 
 .navbar-toggler {
@@ -373,4 +379,36 @@ footer a:hover {
   .controls-right .btn {
     flex: 1;
   }
+}
+
+body.dark {
+  background-color: #3a3a3a;
+}
+
+body.dark .site-header {
+  background-color: #c07600 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+body.dark .site-header .navbar-brand,
+.site-header .nav-link,
+.site-header .navbar-text {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+body.dark #titulo {
+  color: white;
+}
+
+body.dark footer {
+  background-color: #000000;
+}
+
+body.dark label {
+  color: white;
+}
+
+body.dark main p {
+  color: white;
 }
