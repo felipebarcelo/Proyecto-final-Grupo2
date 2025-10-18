@@ -58,6 +58,22 @@ body.dark  {
   background-color: #292929;
 }
 
+body.dark h2 {
+  color: rgb(255, 255, 255)  !important;
+}
+
+body.dark .lead {
+  color: #fff;
+}
+
+body.dark .list-group-item {
+  background-color: #9b9c9c;
+}
+
+body.dark #cant {
+  color: white !important;
+}
+
 @media (min-width: 768px) {
   .jumbotron {
     padding-top: 6rem;
@@ -215,3 +231,4 @@ a.custom-card:hover {
 
   padding: .75rem 1rem .5rem;
 }
+
