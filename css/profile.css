@@ -1,0 +1,84 @@
+/* ===== Perfil - versión resumida ===== */
+
+body {
+    background-color: #f5e3c3;
+    font-family: 'Raleway', sans-serif;
+}
+
+.navbar {
+    background: #f59f00 !important;
+}
+
+.navbar .nav-link {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+/* Centrado y tarjeta */
+main {
+    min-height: calc(100vh - 150px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 15px;
+}
+
+.profile-card {
+    width: 100%;
+    max-width: 900px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.profile-card h2 {
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+/* Avatar */
+.avatar {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.link-like {
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+    color: #000;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Inputs */
+.form-control.greyish {
+    background: #d9d9d9;
+    border: none;
+    border-radius: 6px;
+    height: 42px;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Botón */
+.btn-warning {
+    background: #f59f00;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.btn-warning:hover {
+    background: #e08e00;
+}
