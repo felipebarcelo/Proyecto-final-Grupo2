@@ -2,7 +2,7 @@
 (() => {
     const PROFILE_KEY = 'emercado_profile';
 
-    // Obtiene un email desde lo que dejó el login en localStorage (ajusta si usás otra clave)
+    // Obtiene un email desde lo que dejó el login en localStorage
     const getSessionEmail = () =>
         localStorage.getItem('userEmail') ||
         localStorage.getItem('username') ||
@@ -33,16 +33,30 @@
         email.value = getSessionEmail();
     }
 
-    // 2) Solo vista previa de imagen (NO se persiste)
+    // 2) Vista previa de imagen y preparación para persistirla
+    let selectedDataUrl = null;
+
+    // Cargar imagen guardada para el usuario (si existe)
+    (function loadSavedAvatar() {
+        const sessionUser = getSessionEmail();
+        let img = null;
+        if (sessionUser) img = localStorage.getItem(`profileImage_${sessionUser}`);
+        if (!img) img = localStorage.getItem('profileImage');
+        if (img && avatarPreview) avatarPreview.src = img;
+    })();
+
     avatarInput?.addEventListener('change', (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = () => { avatarPreview.src = reader.result; };
+        reader.onload = () => {
+            selectedDataUrl = reader.result;
+            if (avatarPreview) avatarPreview.src = selectedDataUrl;
+        };
         reader.readAsDataURL(file);
     });
 
-    // 3) Guardar perfil en localStorage (sin imagen)
+    // 3) Guardar perfil en localStorage (con imagen por usuario si fue seleccionada)
     form?.addEventListener('submit', (e) => {
         e.preventDefault();
         const data = {
@@ -52,6 +66,30 @@
             phone: phone.value.trim()
         };
         localStorage.setItem(PROFILE_KEY, JSON.stringify(data));
+
+        // si hay imagen seleccionada, guardarla por usuario
+        const sessionUser = getSessionEmail();
+        if (selectedDataUrl) {
+            try {
+                if (sessionUser) {
+                    localStorage.setItem(`profileImage_${sessionUser}`, selectedDataUrl);
+                } else {
+                    localStorage.setItem('profileImage', selectedDataUrl);
+                }
+                // actualizar todos los avatares en la página 
+                document.querySelectorAll('img[alt="Perfil"]').forEach(i => {
+                    i.src = selectedDataUrl;
+                    i.style.objectFit = 'cover';
+                    i.style.width = i.width ? i.width + 'px' : '40px';
+                    i.style.height = i.height ? i.height + 'px' : '40px';
+                    i.style.borderRadius = '50%';
+                    i.style.display = 'inline-block';
+                });
+            } catch (err) {
+                console.error('No se pudo guardar la imagen en localStorage:', err);
+                alert('La imagen es demasiado grande para guardarse localmente. Intenta con una imagen más chica.');
+            }
+        }
 
         // feedback rápido en el botón
         const btn = form.querySelector('button[type="submit"]');

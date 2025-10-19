@@ -115,3 +115,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Aplicar imagen de perfil guardada (por usuario o global) a todos los avatares
+document.addEventListener('DOMContentLoaded', () => {
+  const sessionUser = localStorage.getItem('userEmail') || localStorage.getItem('username') || '';
+  let profileImg = null;
+  if (sessionUser) profileImg = localStorage.getItem(`profileImage_${sessionUser}`);
+  if (!profileImg) profileImg = localStorage.getItem('profileImage');
+
+  if (!profileImg) return; // Si no hay imagen guardada, salimos
+
+  const applyToAvatars = (src) => {
+    const avatars = document.querySelectorAll('img[alt="Perfil"]');
+    if (!avatars || avatars.length === 0) return false;
+    avatars.forEach(img => {
+      img.src = src;
+      img.style.objectFit = 'cover';
+      img.style.width = img.width ? img.width + 'px' : '40px';
+      img.style.height = img.height ? img.height + 'px' : '40px';
+      img.style.borderRadius = '50%';
+      img.style.display = 'inline-block';
+    });
+  };
+  applyToAvatars(profileImg);
+});
