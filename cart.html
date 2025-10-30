@@ -9,23 +9,70 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/3133a6305d.js" crossorigin="anonymous"></script>
+  <style>
+    /* Estilos adicionales para replicar el Figma */
+    body {
+      background-color: #FFF4E6;
+    }
+    
+    .navbar {
+      background-color: #F59E0B !important;
+    }
+    
+    .navbar-dark .navbar-nav .nav-link {
+      color: white !important;
+      font-weight: 500;
+    }
+    
+    .card {
+      border-radius: 12px !important;
+    }
+    
+    .btn-warning {
+      background-color: #F59E0B;
+      border-color: #F59E0B;
+    }
+    
+    .btn-warning:hover {
+      background-color: #D97706;
+      border-color: #D97706;
+    }
+    
+    .btn-outline-warning {
+      color: #F59E0B;
+      border-color: #F59E0B;
+    }
+    
+    .btn-outline-warning:hover {
+      background-color: #F59E0B;
+      border-color: #F59E0B;
+      color: white;
+    }
+    
+    .text-warning {
+      color: #F59E0B !important;
+    }
+  </style>
   <script>
-  if (localStorage.getItem("isLoggedIn") !== "true") {
-    window.location.replace("login.html");
-  }
-</script>
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.location.replace("login.html");
+    }
+  </script>
 </head>
 
 <body>
   <script src="js/auth.js"></script>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+  
+  <!-- Navbar con diseño del Figma -->
+  <nav class="navbar navbar-expand-lg navbar-dark p-1">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav w-100 justify-content-between">
+        <ul class="navbar-nav w-100 justify-content-between align-items-center">
           <li class="nav-item">
             <a class="nav-link" href="index.html">Inicio</a>
           </li>
@@ -35,22 +82,38 @@
           <li class="nav-item">
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item d-flex align-items-center gap-3">
+            <!-- Icono de búsqueda -->
+            <button class="btn btn-link text-white p-1">
+              <i class="fa fa-search fa-lg"></i>
+            </button>
+            
+            <!-- Icono de tema (sol/luna) -->
+            <button id="themeBtn" class="btn btn-link text-white p-1">
+              <i class="fa-solid fa-moon fa-lg"></i>
+            </button>
+            
+            <!-- Icono de carrito -->
+            <a href="cart.html" class="btn btn-link text-white p-1">
+              <i class="fa fa-shopping-cart fa-lg"></i>
+            </a>
+            
+            <!-- Usuario -->
             <span id="user-display" style="color:white; margin-right:10px; display:none;"></span>
-            <button class="btn btn-danger" id="logout-btn">Cerrar sesión</button>
+            <button class="btn btn-danger btn-sm" id="logout-btn">Cerrar sesión</button>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
   <main>
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
-      </div>
+      <!-- El contenido del carrito se renderiza aquí mediante JavaScript -->
     </div>
   </main>
-  <footer class="text-muted">
+
+  <footer class="text-muted mt-5">
     <div class="container">
       <p class="float-end">
         <a href="#">Volver arriba</a>
@@ -58,6 +121,7 @@
       <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
     </div>
   </footer>
+
   <div id="spinner-wrapper">
     <div class="lds-ring">
       <div></div>
@@ -66,6 +130,7 @@
       <div></div>
     </div>
   </div>
+
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/cart.js"></script>
