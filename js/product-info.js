@@ -4,11 +4,17 @@ const container = document.getElementById("product-container");
 
 const API_URL = "https://japceibal.github.io/emercado-api/products/" + productId + ".json";
 
+// Variable global para guardar el producto actual
+let currentProduct = null;
+
 //fetch para traer los productos
 fetch(API_URL)
-    .then(res => res.json())
-    .then(product => {
-        container.innerHTML = `
+  .then(res => res.json())
+  .then(product => {
+    // Guardar el producto en la variable global
+    currentProduct = product;
+    
+    container.innerHTML = `
         <section id="grid">
 
             <div class="imagen-principal">
@@ -32,7 +38,7 @@ fetch(API_URL)
             <p class="precio">${product.cost} $UY</p>
             <div class="boton-vendidos">
             <p class="vendidos">${product.soldCount} vendidos</p>
-            <button>Comprar</button>            
+            <button id="btn-comprar" onclick="addToCart()">Comprar</button>            
             </div>
             </div>
         </section>
@@ -206,3 +212,44 @@ btn?.addEventListener("click", () => {
   localStorage.setItem(KEY, JSON.stringify(arr)); // lo guardo
   score = 0; showStars(0); txt.value = ""; txt.disabled = true; btn.disabled = true; // limpio todo
 });
+
+// ============================================
+// FUNCIÓN PARA AGREGAR AL CARRITO
+// ============================================
+function addToCart() {
+  if (!currentProduct) {
+    alert('Error: No se pudo cargar el producto');
+    return;
+  }
+
+  const CART_KEY = 'cart-products';
+  const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+  
+  // Buscar si el producto ya existe en el carrito
+  const existingIndex = cart.findIndex(item => item.id === currentProduct.id);
+  
+  if (existingIndex >= 0) {
+    // Si existe, incrementar cantidad
+    cart[existingIndex].quantity += 1;
+    alert(`Se agregó otra unidad de "${currentProduct.name}" al carrito`);
+  } else {
+    // Si no existe, agregar nuevo producto
+    cart.push({
+      id: currentProduct.id,
+      name: currentProduct.name,
+      description: currentProduct.description,
+      cost: currentProduct.cost,
+      image: currentProduct.images[0],
+      quantity: 1
+    });
+    alert(`"${currentProduct.name}" se agregó al carrito`);
+  }
+  
+  // Guardar en localStorage
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  
+  // Preguntar si quiere ir al carrito
+  if (confirm('¿Deseas ir al carrito para finalizar la compra?')) {
+    window.location.href = 'cart.html';
+  }
+}
