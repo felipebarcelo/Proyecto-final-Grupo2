@@ -18,53 +18,8 @@
   </script>
 </head>
 <body>
-  <script src="js/auth.js"></script>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
-    <div class="container">
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav w-100 justify-content-between align-items-center"> <!-- agregamos align-items-center -->
-          <li class="nav-item">
-            <a class="nav-link active" href="index.html">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="categories.html">Categorías</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="sell.html">Vender</a>
-          </li>
-          <a href="cart.html" class="btn btn-link text-white p-1">
-              <i class="fa fa-shopping-cart fa-lg"></i>
-            </a>
-
-          <!-- Avatar con menú desplegable -->
-          <li class="nav-item dropdown d-flex align-items-center">
-            <a class="nav-link dropdown-toggle p-0" href="#" id="userMenu" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              <img src="img/img_perfil.png" alt="Perfil" class="rounded-circle" width="40" height="40"
-                style="object-fit:cover; border:2px solid #fff;">
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-              <li><span class="dropdown-item-text" id="userEmailMenu"></span></li>
-              <li><a class="dropdown-item" id="go-profile" href="my-profile.html">Mi perfil</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><button class="dropdown-item" id="logout-btn-menu" type="button">Cerrar sesión</button></li>
-            </ul>
-          </li>
-        </ul>
-                  <button id="themeBtn" class="btn btn-outline-secondary ms-3">
-        <i class="fa-solid fa-moon" style="color: #ffffff;"></i>
-      </button>
-      </div>
-    </div>
-
-  </nav>
+  <!-- Contenedor donde se insertará la navbar -->
+  <div id="navbar-container"></div>
 
   <main class="pb-5">
     <div class="text-center p-4">
@@ -134,6 +89,7 @@
   <script src="js/auth.js"></script>
   <script src="https://kit.fontawesome.com/3133a6305d.js" crossorigin="anonymous"></script>
   <script src="theme.js"></script>
+  <script src="js/navbar.js"></script>
   
 
 </body>

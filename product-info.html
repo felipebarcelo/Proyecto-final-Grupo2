@@ -19,38 +19,8 @@
 </head>
 
 <body>
-  <script src="js/auth.js"></script>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav w-100 justify-content-between">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="categories.html">Categorías</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="sell.html">Vender</a>
-          </li>
-          <li class="nav-item">
-            <span id="user-display" style="color:white; margin-right:10px; display:none;"></span>
-            <button class="btn btn-danger" id="logout-btn">Cerrar sesión</button>
-          </li>
-          <a href="cart.html" class="btn btn-link text-white p-1">
-              <i class="fa fa-shopping-cart fa-lg"></i>
-            </a>
-        </ul>
-                          <button id="themeBtn" class="btn btn-outline-secondary ms-3">
-        <i class="fa-solid fa-moon" style="color: #ffffff;"></i>
-      </button>
-      </div>
-    </div>
-  </nav>
+  <!-- Contenedor donde se insertará la navbar -->
+  <div id="navbar-container"></div>
   <main>
     <div class="container-productos">
       <div id="product-container"></div>
@@ -105,6 +75,7 @@
   <script src="js/auth.js"></script>
   <script src="https://kit.fontawesome.com/3133a6305d.js" crossorigin="anonymous"></script>
   <script src="theme.js"></script>
+  <script src="js/navbar.js"></script>
 
 </body>
 </html>
