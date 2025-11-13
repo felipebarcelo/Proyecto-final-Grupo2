@@ -1,5 +1,7 @@
 // Clave para almacenar el carrito en localStorage
 const CART_KEY = 'cart-products';
+//Almaceno el tipo de envio 
+const ENVIO_KEY = 'tipoEnvioSeleccionado';
 
 // Función para obtener el carrito desde localStorage
 function getCart() {
@@ -10,6 +12,21 @@ function getCart() {
 // Función para guardar el carrito en localStorage
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+// Funcion para guardar en el LS la opcion de envio 
+function saveEnvio(tipo) {
+  localStorage.setItem(ENVIO_KEY, tipo);
+}
+
+//Funcion para traer el tipo de envio desde el LS
+function getEnvio() {
+  return localStorage.getItem(ENVIO_KEY);
+}
+
+
+function calculateSubtotal(cart) {
+  return cart.reduce((total, item) => total + (item.cost * item.quantity), 0);
 }
 
 // Función para calcular el subtotal
@@ -36,8 +53,9 @@ function calculateSubtotal(cart) {
 function renderCart() {
   const cart = getCart();
   const subtotal = calculateSubtotal(cart);
-  const envio = calcularEnvio(subtotal);
-  const total = subtotal + envio;
+  const envioGuardado = getEnvio();
+  /*const envio = calcularEnvio(subtotal);
+  const total = subtotal + envio;*/
 
   const container = document.querySelector('main .container');
 
@@ -97,7 +115,7 @@ function renderCart() {
                 Tipo de Envío
               </button>
             </h2>
-            <div id="collapseEnvio" class="accordion-collapse collapse">
+            <div id="collapseEnvio" class="accordion-collapse collapse" data-bs-parent="#accordionEnvio">
               <div class="accordion-body">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="tipoEnvio" id="envioPremium" value="premium">
@@ -124,7 +142,7 @@ function renderCart() {
               Dirección de Envío
               </button>
             </h2>
-            <div id="collapseDireccion" class="accordion-collapse collapse">
+            <div id="collapseDireccion" class="accordion-collapse collapse" data-bs-parent="#accordionDireccion">
               <div class="accordion-body">
                 <form id="formDireccion">
                   <div class="mb-3">
@@ -160,7 +178,7 @@ function renderCart() {
                 Forma de Pago
               </button>
             </h2>
-            <div id="collapsePago" class="accordion-collapse collapse">
+            <div id="collapsePago" class="accordion-collapse collapse" data-bs-parent="#accordionPago">
               <div class="accordion-body">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="formaPago" id="pagoTransferencia" value="transferencia">
@@ -189,12 +207,12 @@ function renderCart() {
             </div>
             <div class="d-flex justify-content-between mb-3">
               <span>Envío:</span>
-              <span class="fw-bold">${envio.toFixed()} $UY</span>
+              <span class="fw-bold">${calcularEnvio(subtotal).toFixed()} $UY</span>
             </div>
             <hr>
             <div class="d-flex justify-content-between mb-3">
               <span class="fs-5">Subtotal:</span>
-              <span class="fs-5 fw-bold text-primary">${total.toLocaleString()} $UY</span>
+              <span class="fs-5 fw-bold text-primary">${(subtotal + calcularEnvio(subtotal)).toLocaleString()} $UY</span>
             </div>
             <button class="btn btn-primary w-100">Finalizar compra</button>
           </div>
@@ -202,8 +220,17 @@ function renderCart() {
       </div>
     </div>
   `;
+
+  if (envioGuardado) {
+    const radio = document.querySelector(`input[name="tipoEnvio"][value="${envioGuardado}"]`);
+    if (radio) radio.checked = true;
+  }
+
   document.querySelectorAll('input[name="tipoEnvio"]').forEach(radio => {
-    radio.addEventListener('change', renderCart);
+    radio.addEventListener('change', (e) => {
+      saveEnvio(e.target.value);
+      renderCart();
+    });
   });
 };
 
