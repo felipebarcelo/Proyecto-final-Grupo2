@@ -189,7 +189,7 @@ function renderCart() {
             </div>
             <div class="d-flex justify-content-between mb-3">
               <span>Envío:</span>
-              <span class="fw-bold">${envio} $UY</span>
+              <span class="fw-bold">${envio.toFixed()} $UY</span>
             </div>
             <hr>
             <div class="d-flex justify-content-between mb-3">
