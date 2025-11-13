@@ -17,11 +17,30 @@ function calculateSubtotal(cart) {
   return cart.reduce((total, item) => total + (item.cost * item.quantity), 0);
 }
 
+  function calcularEnvio(subtotal) {
+  const envioSeleccionado = document.querySelector('input[name="tipoEnvio"]:checked');
+
+  if (!envioSeleccionado) return 0;
+
+  if (envioSeleccionado.value === "premium") {
+    return subtotal * 0.15;
+  } else if (envioSeleccionado.value === "express") {
+    return subtotal * 0.07;
+  } else {
+    return subtotal * 0.05;
+  }
+}
+
+
 // Función para renderizar el carrito
 function renderCart() {
   const cart = getCart();
+  const subtotal = calculateSubtotal(cart);
+  const envio = calcularEnvio(subtotal);
+  const total = subtotal + envio;
+
   const container = document.querySelector('main .container');
-  
+
   if (cart.length === 0) {
     container.innerHTML = `
       <div class="alert alert-info text-center" role="alert">
@@ -33,9 +52,7 @@ function renderCart() {
     return;
   }
 
-  const subtotal = calculateSubtotal(cart);
-  const envio = 500;
-  const total = subtotal + envio;
+
 
   container.innerHTML = `
     <h1 class="mb-4">Mi Carrito</h1>
@@ -185,13 +202,17 @@ function renderCart() {
       </div>
     </div>
   `;
-}
+  document.querySelectorAll('input[name="tipoEnvio"]').forEach(radio => {
+    radio.addEventListener('change', renderCart);
+  });
+};
+
 
 // Función para cambiar la cantidad (incrementar/decrementar)
 function changeQuantity(index, delta) {
   const cart = getCart();
   const newQuantity = cart[index].quantity + delta;
-  
+
   if (newQuantity > 0) {
     cart[index].quantity = newQuantity;
     saveCart(cart);
@@ -203,7 +224,7 @@ function changeQuantity(index, delta) {
 function updateQuantity(index, value) {
   const cart = getCart();
   const quantity = parseInt(value);
-  
+
   if (quantity > 0) {
     cart[index].quantity = quantity;
     saveCart(cart);
@@ -223,3 +244,4 @@ function removeItem(index) {
 
 // Renderizar el carrito al cargar la página
 document.addEventListener('DOMContentLoaded', renderCart);
+
