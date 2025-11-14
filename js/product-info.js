@@ -13,7 +13,7 @@ fetch(API_URL)
   .then(product => {
     // Guardar el producto en la variable global
     currentProduct = product;
-    
+
     container.innerHTML = `
         <section id="grid">
 
@@ -38,7 +38,8 @@ fetch(API_URL)
             <p class="precio">${product.cost} $UY</p>
             <div class="boton-vendidos">
             <p class="vendidos">${product.soldCount} vendidos</p>
-            <button id="btn-comprar" onclick="addToCart()">Comprar</button>            
+            <button type="button" id="btn-comprar" onclick="addToCart()">Comprar</button>
+            
             </div>
             </div>
         </section>
@@ -56,8 +57,8 @@ fetch(API_URL)
     });
 
 
-  //Botón comprar
-    
+    //Botón comprar
+
     const buyBtn = container.querySelector('.precio-boton .boton-vendidos button') || container.querySelector('button');
     if (buyBtn) {
       buyBtn.addEventListener('click', () => {
@@ -86,8 +87,7 @@ fetch(API_URL)
           // Actualización de localStorage.
           localStorage.setItem(CART_KEY, JSON.stringify(stored));
 
-          // Redirección al carrito.
-          window.location.href = 'cart.html';
+
         } catch (err) {
           console.error('Error guardando en el carrito', err);
           alert('No se pudo agregar el producto al carrito. Intente nuevamente.');
@@ -213,9 +213,8 @@ btn?.addEventListener("click", () => {
   score = 0; showStars(0); txt.value = ""; txt.disabled = true; btn.disabled = true; // limpio todo
 });
 
-// ============================================
-// FUNCIÓN PARA AGREGAR AL CARRITO
-// ============================================
+
+// Funcion agregar al carrito
 function addToCart() {
   if (!currentProduct) {
     alert('Error: No se pudo cargar el producto');
@@ -224,10 +223,10 @@ function addToCart() {
 
   const CART_KEY = 'cart-products';
   const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-  
+
   // Buscar si el producto ya existe en el carrito
   const existingIndex = cart.findIndex(item => item.id === currentProduct.id);
-  
+
   if (existingIndex >= 0) {
     // Si existe, incrementar cantidad
     cart[existingIndex].quantity += 1;
@@ -244,12 +243,19 @@ function addToCart() {
     });
     alert(`"${currentProduct.name}" se agregó al carrito`);
   }
-  
+
   // Guardar en localStorage
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
-  
-  // Preguntar si quiere ir al carrito
-  if (confirm('¿Deseas ir al carrito para finalizar la compra?')) {
+
+
+  let confirmacion = confirm("¿Deseas ir al carrito para finalizar la compra?");
+
+  if (confirmacion) {
+    // El usuario hizo clic en "Aceptar"
     window.location.href = 'cart.html';
+    // Aquí va el código para eliminar el elemento
+  } else {
+    // El usuario hizo clic en "Cancelar"
+    window.location.href = 'products.html';
   }
 }
