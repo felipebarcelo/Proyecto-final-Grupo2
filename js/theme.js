@@ -2,6 +2,7 @@
 function handleDarkMode() {
     const themeBtn = document.getElementById('themeBtn');
     const darkMode = localStorage.getItem('darkMode');
+    if(!themeBtn) return;
     
     // Aplicar modo oscuro si estaba activo
     if (darkMode === 'true') {
@@ -10,7 +11,7 @@ function handleDarkMode() {
     }
 
     // Agregar evento click al botón
-    themeBtn.addEventListener('click', () => {
+    themeBtn.addEventListener("click", () => {
         document.body.classList.toggle('dark');
         const isDark = document.body.classList.contains('dark');
         
@@ -25,4 +26,5 @@ function handleDarkMode() {
 }
 
 // Inicializar cuando el DOM esté cargado
+
 document.addEventListener('DOMContentLoaded', handleDarkMode);

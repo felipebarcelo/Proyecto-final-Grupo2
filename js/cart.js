@@ -1,5 +1,7 @@
 // Clave para almacenar el carrito en localStorage
 const CART_KEY = 'cart-products';
+//Almaceno el tipo de envio 
+const ENVIO_KEY = 'tipoEnvioSeleccionado';
 
 // Función para obtener el carrito desde localStorage
 function getCart() {
@@ -12,16 +14,51 @@ function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
 
+// Funcion para guardar en el LS la opcion de envio 
+function saveEnvio(tipo) {
+  localStorage.setItem(ENVIO_KEY, tipo);
+}
+
+//Funcion para traer el tipo de envio desde el LS
+function getEnvio() {
+  return localStorage.getItem(ENVIO_KEY);
+}
+
+
+function calculateSubtotal(cart) {
+  return cart.reduce((total, item) => total + (item.cost * item.quantity), 0);
+}
+
 // Función para calcular el subtotal
 function calculateSubtotal(cart) {
   return cart.reduce((total, item) => total + (item.cost * item.quantity), 0);
 }
 
+function calcularEnvio(subtotal) {
+  const envioSeleccionado = document.querySelector('input[name="tipoEnvio"]:checked');
+
+  if (!envioSeleccionado) return 0;
+
+  if (envioSeleccionado.value === "premium") {
+    return subtotal * 0.15;
+  } else if (envioSeleccionado.value === "express") {
+    return subtotal * 0.07;
+  } else {
+    return subtotal * 0.05;
+  }
+}
+
+
 // Función para renderizar el carrito
 function renderCart() {
   const cart = getCart();
+  const subtotal = calculateSubtotal(cart);
+  const envioGuardado = getEnvio();
+  /*const envio = calcularEnvio(subtotal);
+  const total = subtotal + envio;*/
+
   const container = document.querySelector('main .container');
-  
+
   if (cart.length === 0) {
     container.innerHTML = `
       <div class="alert alert-info text-center" role="alert">
@@ -33,9 +70,7 @@ function renderCart() {
     return;
   }
 
-  const subtotal = calculateSubtotal(cart);
-  const envio = 500;
-  const total = subtotal + envio;
+
 
   container.innerHTML = `
     <h1 class="mb-4">Mi Carrito</h1>
@@ -72,6 +107,97 @@ function renderCart() {
       </div>
       
       <div class="col-lg-4">
+
+        <div class="accordion my-3" id="accordionEnvio">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEnvio">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEnvio">
+                Tipo de Envío
+              </button>
+            </h2>
+            <div id="collapseEnvio" class="accordion-collapse collapse" data-bs-parent="#accordionEnvio">
+              <div class="accordion-body">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="tipoEnvio" id="envioPremium" value="premium">
+                  <label class="form-check-label" for="envioPremium"><strong>Premium</strong> - - - - 2 a 5 días (15%)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="tipoEnvio" id="envioExpress" value="express">
+                  <label class="form-check-label" for="envioExpress"><strong>Express</strong> - - - - 6 a 9 días (7%)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="tipoEnvio" id="envioEstandar" value="estandar">
+                  <label class="form-check-label" for="envioEstandar"><strong>Estándar</strong>- - - - 10 a 15 días (5%)</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="accordion my-3" id="accordionDireccion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingDireccion">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDireccion">
+              Dirección de Envío
+              </button>
+            </h2>
+            <div id="collapseDireccion" class="accordion-collapse collapse" data-bs-parent="#accordionDireccion">
+              <div class="accordion-body">
+                <form id="formDireccion">
+                  <div class="mb-3">
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <input type="text" class="form-control" id="departamento" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="localidad" class="form-label">Localidad</label>
+                    <input type="text" class="form-control" id="localidad" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="calle" class="form-label">Calle</label>
+                    <input type="text" class="form-control" id="calle" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="numero" class="form-label">Número</label>
+                    <input type="text" class="form-control" id="numero" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="esquina" class="form-label">Esquina</label>
+                    <input type="text" class="form-control" id="esquina" required>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion my-3" id="accordionPago">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingPago">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePago">
+                Forma de Pago
+              </button>
+            </h2>
+            <div id="collapsePago" class="accordion-collapse collapse" data-bs-parent="#accordionPago">
+              <div class="accordion-body">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="formaPago" id="pagoTransferencia" value="transferencia">
+                  <label class="form-check-label" for="pagoTransferencia"><strong>Transferencia Bancaria</strong></label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="formaPago" id="pagoTarjeta" value="tarjeta">
+                  <label class="form-check-label" for="pagoTarjeta"><strong>Tarjeta de Crédito</strong></label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="formaPago" id="pagoEfectivo" value="efectivo">
+                  <label class="form-check-label" for="pagoEfectivo"><strong>Efectivo</strong></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <div class="card shadow-sm sticky-top" style="top: 20px;">
           <div class="card-body">
             <h5 class="card-title mb-3">Detalle de la compra:</h5>
@@ -81,12 +207,12 @@ function renderCart() {
             </div>
             <div class="d-flex justify-content-between mb-3">
               <span>Envío:</span>
-              <span class="fw-bold">${envio} $UY</span>
+              <span class="fw-bold">${calcularEnvio(subtotal).toFixed()} $UY</span>
             </div>
             <hr>
             <div class="d-flex justify-content-between mb-3">
               <span class="fs-5">Subtotal:</span>
-              <span class="fs-5 fw-bold text-primary">${total.toLocaleString()} $UY</span>
+              <span class="fs-5 fw-bold text-primary">${(subtotal + calcularEnvio(subtotal)).toLocaleString()} $UY</span>
             </div>
             <button class="btn btn-primary w-100">Finalizar compra</button>
           </div>
@@ -94,13 +220,26 @@ function renderCart() {
       </div>
     </div>
   `;
-}
+
+  if (envioGuardado) {
+    const radio = document.querySelector(`input[name="tipoEnvio"][value="${envioGuardado}"]`);
+    if (radio) radio.checked = true;
+  }
+
+  document.querySelectorAll('input[name="tipoEnvio"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      saveEnvio(e.target.value);
+      renderCart();
+    });
+  });
+};
+
 
 // Función para cambiar la cantidad (incrementar/decrementar)
 function changeQuantity(index, delta) {
   const cart = getCart();
   const newQuantity = cart[index].quantity + delta;
-  
+
   if (newQuantity > 0) {
     cart[index].quantity = newQuantity;
     saveCart(cart);
@@ -112,7 +251,7 @@ function changeQuantity(index, delta) {
 function updateQuantity(index, value) {
   const cart = getCart();
   const quantity = parseInt(value);
-  
+
   if (quantity > 0) {
     cart[index].quantity = quantity;
     saveCart(cart);
@@ -132,3 +271,51 @@ function removeItem(index) {
 
 // Renderizar el carrito al cargar la página
 document.addEventListener('DOMContentLoaded', renderCart);
+
+//  EVENTO PARA FINALIZAR COMPRA 
+document.addEventListener("click", (e) => {
+
+  // Se ejecuta solo si el botón dice "Finalizar compra"
+  if (e.target.textContent.trim() !== "Finalizar compra") return;
+
+  // VALIDACIONES
+
+  // 1) Dirección
+  const departamento = document.getElementById("departamento").value.trim();
+  const localidad = document.getElementById("localidad").value.trim();
+  const calle = document.getElementById("calle").value.trim();
+  const numero = document.getElementById("numero").value.trim();
+  const esquina = document.getElementById("esquina").value.trim();
+
+  if (!departamento || !localidad || !calle || !numero || !esquina) {
+    alert("Debe completar todos los campos de dirección.");
+    return;
+  }
+
+  // 2) Envío seleccionado
+  const envio = document.querySelector('input[name="tipoEnvio"]:checked');
+  if (!envio) {
+    alert("Debe seleccionar un tipo de envío.");
+    return;
+  }
+
+  // 3) Cantidades mayores a 0
+  const cart = getCart();
+  for (let item of cart) {
+    if (!item.quantity || item.quantity <= 0) {
+      alert("Todas las cantidades deben ser mayores a 0.");
+      return;
+    }
+  }
+
+  // 4) Forma de pago seleccionada
+  const pago = document.querySelector('input[name="formaPago"]:checked');
+  if (!pago) {
+    alert("Debe seleccionar una forma de pago.");
+    return;
+  }
+
+
+  // TODO OK
+  alert("¡Compra realizada con éxito!");
+});
