@@ -34,7 +34,7 @@ function calculateSubtotal(cart) {
   return cart.reduce((total, item) => total + (item.cost * item.quantity), 0);
 }
 
-  function calcularEnvio(subtotal) {
+function calcularEnvio(subtotal) {
   const envioSeleccionado = document.querySelector('input[name="tipoEnvio"]:checked');
 
   if (!envioSeleccionado) return 0;
@@ -272,3 +272,50 @@ function removeItem(index) {
 // Renderizar el carrito al cargar la página
 document.addEventListener('DOMContentLoaded', renderCart);
 
+//  EVENTO PARA FINALIZAR COMPRA 
+document.addEventListener("click", (e) => {
+
+  // Se ejecuta solo si el botón dice "Finalizar compra"
+  if (e.target.textContent.trim() !== "Finalizar compra") return;
+
+  // VALIDACIONES
+
+  // 1) Dirección
+  const departamento = document.getElementById("departamento").value.trim();
+  const localidad = document.getElementById("localidad").value.trim();
+  const calle = document.getElementById("calle").value.trim();
+  const numero = document.getElementById("numero").value.trim();
+  const esquina = document.getElementById("esquina").value.trim();
+
+  if (!departamento || !localidad || !calle || !numero || !esquina) {
+    alert("Debe completar todos los campos de dirección.");
+    return;
+  }
+
+  // 2) Envío seleccionado
+  const envio = document.querySelector('input[name="tipoEnvio"]:checked');
+  if (!envio) {
+    alert("Debe seleccionar un tipo de envío.");
+    return;
+  }
+
+  // 3) Cantidades mayores a 0
+  const cart = getCart();
+  for (let item of cart) {
+    if (!item.quantity || item.quantity <= 0) {
+      alert("Todas las cantidades deben ser mayores a 0.");
+      return;
+    }
+  }
+
+  // 4) Forma de pago seleccionada
+  const pago = document.querySelector('input[name="formaPago"]:checked');
+  if (!pago) {
+    alert("Debe seleccionar una forma de pago.");
+    return;
+  }
+
+
+  // TODO OK
+  alert("¡Compra realizada con éxito!");
+});
