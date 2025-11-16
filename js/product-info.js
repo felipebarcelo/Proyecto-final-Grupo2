@@ -87,7 +87,7 @@ fetch(API_URL)
           localStorage.setItem(CART_KEY, JSON.stringify(stored));
 
           // Redirección al carrito.
-          window.location.href = 'cart.html';
+          //window.location.href = 'cart.html';
         } catch (err) {
           console.error('Error guardando en el carrito', err);
           alert('No se pudo agregar el producto al carrito. Intente nuevamente.');
@@ -247,9 +247,16 @@ function addToCart() {
   
   // Guardar en localStorage
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
-  
-  // Preguntar si quiere ir al carrito
-  if (confirm('¿Deseas ir al carrito para finalizar la compra?')) {
-    window.location.href = 'cart.html';
-  }
+
+  let confirmacion = confirm("¿Deseas ir al carrito para finalizar la compra?");
+
+if (confirmacion) {
+  // El usuario hizo clic en "Aceptar"
+  window.location.href = 'cart.html';
+} else {
+  // El usuario hizo clic en "Cancelar"
+  alert("La compra fue cancelada.");
+  window.location.href = 'products.html';
 }
+}
+  

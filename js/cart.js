@@ -70,8 +70,6 @@ function renderCart() {
     return;
   }
 
-
-
   container.innerHTML = `
     <h1 class="mb-4">Mi Carrito</h1>
     <div class="row">
