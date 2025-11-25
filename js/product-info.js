@@ -87,7 +87,6 @@ fetch(API_URL)
           // Actualización de localStorage.
           localStorage.setItem(CART_KEY, JSON.stringify(stored));
 
-
         } catch (err) {
           console.error('Error guardando en el carrito', err);
           alert('No se pudo agregar el producto al carrito. Intente nuevamente.');

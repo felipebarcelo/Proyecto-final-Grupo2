@@ -1,0 +1,78 @@
+h1 {
+    margin-top: 3%;
+}
+
+body {
+    background-color: #FFF4E6;
+}
+
+body .btn-outline-secondary,  .form-control, .btn-outline-secondary {
+    border-color: black;
+    color: rgb(0, 0, 0);
+    background-color: white;
+}
+
+
+body.dark {
+    background-color: grey;
+
+}
+
+body.dark h1 {
+    color: white;
+}
+
+body.dark .card-body {
+    background-color: rgb(43, 42, 42);
+    
+}
+
+
+body.dark h5 {
+    color: rgb(248, 248, 248);
+}
+
+body.dark label {
+    color: white;
+}
+
+body.dark .card-text {
+    color: white !important;
+}
+
+body.dark .card {
+    border: 1px solid black;
+}
+
+body.dark .text-primary {
+    color: antiquewhite !important;
+}
+
+body.dark .form-control {
+    background-color: rgb(138, 136, 136);
+    color: white;
+}
+
+body.dark .btn-outline-secondary, .btn-outline-secondary {
+    border-color: black;
+    color: white;
+    background-color: rgb(124, 124, 124);
+}
+
+body.dark .accordion-button {
+    background-color: rgb(77, 76, 76) ;
+    color: white;
+}
+
+body.dark .accordion-body {
+    color: #FFF4E6;
+    background-color: black;
+}
+
+body.dark span {
+    color: #FFF4E6;
+}
+
+body.dark hr {
+    color: beige;
+}
