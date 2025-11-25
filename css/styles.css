@@ -54,7 +54,7 @@ body.dark .jumbotron {
   font-weight: bold;
 }
 
-body.dark  {
+body.dark {
   background-color: #292929 !important;
   color: #ffffff !important;
 }
@@ -264,80 +264,81 @@ a.custom-card:hover {
 
 /* Estilos para la navbar en modo oscuro */
 body.dark .navbar {
-    background-color: #202020 !important;
+  background-color: #202020 !important;
 }
 
 body.dark .navbar-brand,
 body.dark .nav-link {
-    color: #ffffff !important;
+  color: #ffffff !important;
 }
 
 body.dark .nav-link:hover {
-    color: #ffffff !important;
+  color: #ffffff !important;
 }
 
 body.dark .navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 body.dark .navbar-collapse {
-    background-color: #202020 !important;
-    padding: 1rem;
+  background-color: #202020 !important;
+  padding: 1rem;
 }
 
 body.dark .navbar-nav {
-    background-color: #202020 !important;
-    border-radius: 8px;
-    padding: 10px;
+  background-color: #202020 !important;
+  border-radius: 8px;
+  padding: 10px;
 }
 
 /* Estilos para los íconos del menú */
 body.dark .nav-item i {
-    color: #ffffff !important;
-    margin-right: 10px;
+  color: #ffffff !important;
+  margin-right: 10px;
 }
 
 /* Estilos para el menú desplegable */
 body.dark .dropdown-menu {
-    background-color: #202020 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: #202020 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 body.dark .dropdown-item {
-    color: #ffffff !important;
+  color: #ffffff !important;
 }
 
 body.dark .dropdown-item:hover {
-    background-color: #303030 !important;
+  background-color: #303030 !important;
 }
 
 /* Ajustes para el perfil en el menú */
 body.dark .profile-section {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 10px 0;
-    margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 0;
+  margin-bottom: 10px;
 }
 
 /* Estilos para el botón de cerrar sesión */
 body.dark .logout-button {
-    color: #ff6b6b !important;
+  color: #ff6b6b !important;
 }
 
 /* Ajustes para dispositivos móviles */
 @media (max-width: 991.98px) {
-    body.dark .navbar-collapse {
-        padding: 1rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-    
-    body.dark .navbar-nav {
-        padding: 0.5rem 0;
-    }
-    
-    body.dark .dropdown-menu {
-        background-color: #303030 !important;
-        border: none !important;
-    }
-}
+  body.dark .navbar-collapse {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
 
+  body.dark .navbar-nav {
+    padding: 0.5rem 0;
+  }
+
+  body.dark .dropdown-menu {
+    background-color: #303030 !important;
+    border: none !important;
+  }
+
+  ;
+}

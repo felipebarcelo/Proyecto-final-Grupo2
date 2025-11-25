@@ -3,6 +3,22 @@
 function createNavbar() {
   const navbarHTML = `
     <style>
+    #cart-dropdown:hover #cart-preview {
+  display: block !important;
+}
+
+#cart-preview div.item {
+  padding: 8px 12px;
+  border-bottom: 1px solid #E5E7EB;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+#cart-preview div.item:last-child {
+  border-bottom: none;
+}
+
       /* Estilos para la navbar responsive */
       .navbar-mobile-overlay {
         display: none;
@@ -157,15 +173,47 @@ function createNavbar() {
         <!-- Carrito y Usuario (Desktop) -->
         <div style="display: flex; align-items: center; gap: 20px;">
           
-          <!-- Carrito -->
-          <a href="cart.html" style="position: relative; color: white; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1"></circle>
-              <circle cx="20" cy="21" r="1"></circle>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-            <span id="cart-count" style="position: absolute; top: -8px; right: -8px; background: #DC2626; color: white; border-radius: 50%; width: 20px; height: 20px; display: none; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">0</span>
-          </a>
+        
+         <!-- Carrito con dropdown al hover -->
+<div id="cart-dropdown" style="position: relative;">
+
+  <a id="cart-icon" style="position: relative; color: white; text-decoration: none; transition: transform 0.2s; cursor:pointer;"
+     onmouseover="this.style.transform='scale(1.1)'"
+     onmouseout="this.style.transform='scale(1)'">
+
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="9" cy="21" r="1"></circle>
+      <circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+
+    <span id="cart-count"
+          style="position: absolute; top: -8px; right: -8px; background: #DC2626; color: white;
+          border-radius: 50%; width: 20px; height: 20px; display: none;
+          align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">
+      0
+    </span>
+  </a>
+
+  <!-- DROPDOWN -->
+  <div id="cart-preview"
+       style="
+        position: absolute;
+        right: 0;
+        top: 40px;
+        background: white;
+        width: 260px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        display: none;
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 2000;
+       ">
+    <p class="text-center text-muted" style="padding: 10px;">Carrito vacío</p>
+  </div>
+</div>
+
 
           <!-- Usuario Dropdown (Solo Desktop) -->
           <div class="navbar-desktop-user" style="position: relative;">
@@ -367,10 +415,10 @@ function initNavbarFunctionality() {
 
   // === MOSTRAR EMAIL DEL USUARIO ===
   const userEmail = localStorage.getItem('userEmail') || localStorage.getItem('username') || 'Usuario';
-  
+
   const userEmailMenu = document.getElementById('userEmailMenu');
   const userEmailMenuMobile = document.getElementById('userEmailMenuMobile');
-  
+
   if (userEmailMenu) userEmailMenu.textContent = userEmail;
   if (userEmailMenuMobile) userEmailMenuMobile.textContent = userEmail;
 
@@ -387,7 +435,7 @@ function initNavbarFunctionality() {
   if (profileImg) {
     const navbarAvatarDesktop = document.getElementById('navbar-avatar-desktop');
     const navbarAvatarMobile = document.getElementById('navbar-avatar-mobile');
-    
+
     if (navbarAvatarDesktop) navbarAvatarDesktop.src = profileImg;
     if (navbarAvatarMobile) navbarAvatarMobile.src = profileImg;
   }
@@ -395,14 +443,14 @@ function initNavbarFunctionality() {
   // === BOTONES DE MI PERFIL ===
   const goProfileDesktop = document.getElementById('go-profile-desktop');
   const goProfileMobile = document.getElementById('go-profile-mobile');
-  
+
   if (goProfileDesktop) {
     goProfileDesktop.addEventListener('click', (e) => {
       e.preventDefault();
       window.location.href = 'my-profile.html';
     });
   }
-  
+
   if (goProfileMobile) {
     goProfileMobile.addEventListener('click', (e) => {
       e.preventDefault();
@@ -423,7 +471,7 @@ function initNavbarFunctionality() {
 
   const logoutBtnDesktop = document.getElementById('logout-btn-desktop');
   const logoutBtnMobile = document.getElementById('logout-btn-mobile');
-  
+
   if (logoutBtnDesktop) logoutBtnDesktop.addEventListener('click', doLogout);
   if (logoutBtnMobile) logoutBtnMobile.addEventListener('click', doLogout);
 
@@ -436,22 +484,22 @@ function initNavbarFunctionality() {
     // Verificar el tema guardado
     const savedTheme = localStorage.getItem('darkMode') === 'true';
     document.body.classList.toggle('dark', savedTheme);
-    
+
     themeBtn.addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        localStorage.setItem('darkMode', document.body.classList.contains('dark'));
-        
-        // Actualizar el ícono
-        const isDark = document.body.classList.contains('dark');
-        themeBtn.innerHTML = isDark 
-            ? '<i class="fas fa-sun"></i>' 
-            : '<i class="fas fa-moon"></i>';
-    });
-    
-    // Establecer el ícono inicial
-    themeBtn.innerHTML = savedTheme 
-        ? '<i class="fas fa-sun"></i>' 
+      document.body.classList.toggle('dark');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+
+      // Actualizar el ícono
+      const isDark = document.body.classList.contains('dark');
+      themeBtn.innerHTML = isDark
+        ? '<i class="fas fa-sun"></i>'
         : '<i class="fas fa-moon"></i>';
+    });
+
+    // Establecer el ícono inicial
+    themeBtn.innerHTML = savedTheme
+      ? '<i class="fas fa-sun"></i>'
+      : '<i class="fas fa-moon"></i>';
   }
 
   // === MOSTRAR LOGO EN MÓVIL ===
@@ -464,21 +512,54 @@ function initNavbarFunctionality() {
         mobileLogo.parentElement.style.display = 'none';
       }
     };
-    
+
     updateLogoVisibility();
     window.addEventListener('resize', updateLogoVisibility);
   }
+  // === DROPDOWN DEL CARRITO ===
+  function loadCartPreview() {
+    const preview = document.getElementById("cart-preview");
+    const cart = JSON.parse(localStorage.getItem("cart-products") || "[]");
+
+    if (!preview) return;
+
+    if (cart.length === 0) {
+      preview.innerHTML = `<p class="text-center text-muted" style="padding: 10px;">Carrito vacío</p>`;
+      return;
+    }
+
+    preview.innerHTML = cart
+      .map(item => `
+      <div class="item">
+        <span>${item.name}</span>
+        <span>${item.quantity} × ${item.cost}</span>
+      </div>
+    `)
+      .join("") +
+      `
+    <div style="padding: 10px; text-align:center;">
+      <a href="cart.html" style="padding: 6px 12px; background:#FF8C00; color:white; border-radius:6px; display:inline-block;">
+        Ver carrito
+      </a>
+    </div>
+    `;
+  }
+
+  // Cargar al iniciar
+  loadCartPreview();
+
 }
 
 // Función para actualizar el contador del carrito
 function updateCartCount() {
   const cartCount = document.getElementById('cart-count');
   const cartCountMobile = document.getElementById('cart-count-mobile');
-  
+
   // Obtener items del carrito desde localStorage
-  const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+  const cartItems = JSON.parse(localStorage.getItem('cart-products') || '[]');
+
   const totalItems = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  
+
   if (totalItems > 0) {
     if (cartCount) {
       cartCount.textContent = totalItems;

@@ -10,18 +10,18 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <script>
-  if (localStorage.getItem("isLoggedIn") !== "true") {
-    window.location.replace("login.html");
-  }
-</script>
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.location.replace("login.html");
+    }
+  </script>
 </head>
 
 <body>
- 
-  
+
+
   <!-- Contenedor donde se insertará la navbar -->
   <div id="navbar-container"></div>
-  
+
   <main>
     <div class="jumbotron text-center"></div>
     <div class="album py-5">
@@ -29,6 +29,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-4 shadow-sm custom-card cursor-active" id="autos">
+
               <img class="bd-placeholder-img card-img-top" src="img/cars_index.jpg"
                 alt="Imgagen representativa de la categoría 'Autos'">
               <h3 class="m-3">Autos</h3>
