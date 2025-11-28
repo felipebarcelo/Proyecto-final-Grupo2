@@ -1,10 +1,14 @@
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     // Obtiene el ID de la categoría desde localStorage, por defecto 101 si no existe
     const catId = localStorage.getItem("catID") || 101;
 
     const grid = document.getElementById("product-grid");
 
-    const API_URL = "https://japceibal.github.io/emercado-api/cats_products/" + catId + ".json";
+
+    const API_URL = "http://localhost:3000/cats_products/" + `${catId}.json`;;
 
     fetch(API_URL)
         .then(function (res) {
@@ -59,9 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let masterList = [];
     let currentSort = null;
 
-    //  CARGA INICIAL 
     const catId = localStorage.getItem("catID") || 101;
-    const API_URL = `https://japceibal.github.io/emercado-api/cats_products/${catId}.json`;
+    const API_URL = "http://localhost:3000/cats_products/" + `${catId}.json`;
+    
+   
 
     fetch(API_URL)
         .then(r => {
