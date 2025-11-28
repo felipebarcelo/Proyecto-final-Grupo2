@@ -4,7 +4,7 @@ const BASE_URL = "http://localhost:3000/";
 // Categorías
 const CATEGORIES_URL = BASE_URL + "cats/cat.json";
 
-// Productos por categoría (se le concatena el ID + .json)
+// Productos por categoría 
 const CATS_PRODUCTS_URL = BASE_URL + "cats_products/";
 
 // Detalle de producto
