@@ -24,12 +24,6 @@ function getEnvio() {
   return localStorage.getItem(ENVIO_KEY);
 }
 
-
-function calculateSubtotal(cart) {
-  return cart.reduce((total, item) => total + (item.cost * item.quantity), 0);
-}
-
-// Función para calcular el subtotal
 function calculateSubtotal(cart) {
   return cart.reduce((total, item) => total + (item.cost * item.quantity), 0);
 }
@@ -48,14 +42,11 @@ function calcularEnvio(subtotal) {
   }
 }
 
-
 // Función para renderizar el carrito
 function renderCart() {
   const cart = getCart();
   const subtotal = calculateSubtotal(cart);
   const envioGuardado = getEnvio();
-  /*const envio = calcularEnvio(subtotal);
-  const total = subtotal + envio;*/
 
   const container = document.querySelector('main .container');
 
@@ -212,7 +203,7 @@ function renderCart() {
               <span class="fs-5">Subtotal:</span>
               <span class="fs-5 fw-bold text-primary">${(subtotal + calcularEnvio(subtotal)).toLocaleString()} $UY</span>
             </div>
-            <button class="btn btn-primary w-100">Finalizar compra</button>
+            <button class="btn btn-primary w-100" id="btnFinalizarCompra">Finalizar compra</button>
           </div>
         </div>
       </div>
@@ -230,8 +221,7 @@ function renderCart() {
       renderCart();
     });
   });
-};
-
+}
 
 // Función para cambiar la cantidad (incrementar/decrementar)
 function changeQuantity(index, delta) {
@@ -255,7 +245,7 @@ function updateQuantity(index, value) {
     saveCart(cart);
     renderCart();
   } else {
-    renderCart(); // Recargar para restaurar el valor anterior
+    renderCart();
   }
 }
 
@@ -267,17 +257,10 @@ function removeItem(index) {
   renderCart();
 }
 
-// Renderizar el carrito al cargar la página
-document.addEventListener('DOMContentLoaded', renderCart);
-
-//  EVENTO PARA FINALIZAR COMPRA 
-document.addEventListener("click", (e) => {
-
-  // Se ejecuta solo si el botón dice "Finalizar compra"
-  if (e.target.textContent.trim() !== "Finalizar compra") return;
-
-  // VALIDACIONES
-
+// ========================================
+// NUEVA FUNCIÓN: Enviar carrito al backend
+// ========================================
+async function enviarCarritoAlBackend() {
   // 1) Dirección
   const departamento = document.getElementById("departamento").value.trim();
   const localidad = document.getElementById("localidad").value.trim();
@@ -291,11 +274,12 @@ document.addEventListener("click", (e) => {
   }
 
   // 2) Envío seleccionado
-  const envio = document.querySelector('input[name="tipoEnvio"]:checked');
-  if (!envio) {
+  const envioElement = document.querySelector('input[name="tipoEnvio"]:checked');
+  if (!envioElement) {
     alert("Debe seleccionar un tipo de envío.");
     return;
   }
+  const tipo_envio = envioElement.value;
 
   // 3) Cantidades mayores a 0
   const cart = getCart();
@@ -307,13 +291,83 @@ document.addEventListener("click", (e) => {
   }
 
   // 4) Forma de pago seleccionada
-  const pago = document.querySelector('input[name="formaPago"]:checked');
-  if (!pago) {
+  const pagoElement = document.querySelector('input[name="formaPago"]:checked');
+  if (!pagoElement) {
     alert("Debe seleccionar una forma de pago.");
     return;
   }
+  const forma_pago = pagoElement.value;
 
+  // 5) Preparar los datos para enviar
+  const productos = cart.map(item => ({
+    id: item.id,
+    name: item.name,
+    quantity: item.quantity,
+    cost: item.cost
+  }));
 
-  // TODO OK
-  alert("¡Compra realizada con éxito!");
+  const direccion = {
+    departamento,
+    localidad,
+    calle,
+    numero,
+    esquina
+  };
+
+  // 6) Obtener cliente_id del localStorage (o usar un valor por defecto)
+  const userEmail = localStorage.getItem('userEmail');
+  const cliente_id = userEmail ? userEmail : 'usuario_demo';
+
+  const datosCarrito = {
+    cliente_id,
+    productos,
+    direccion,
+    tipo_envio,
+    forma_pago
+  };
+
+  try {
+    // 7) Hacer el fetch al endpoint POST /cart
+    const response = await fetch('http://localhost:3000/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(datosCarrito)
+    });
+
+    const resultado = await response.json();
+
+    if (response.ok && resultado.success) {
+      alert("¡Compra realizada con éxito! Tu pedido ha sido registrado.");
+      console.log('Respuesta del servidor:', resultado);
+
+      // Limpiar el carrito después de la compra exitosa
+      localStorage.removeItem(CART_KEY);
+      localStorage.removeItem(ENVIO_KEY);
+
+      // Redirigir o recargar
+      window.location.reload();
+    } else {
+      alert(`Error: ${resultado.error || 'No se pudo completar la compra'}`);
+      console.error('Error del servidor:', resultado);
+    }
+
+  } catch (error) {
+    console.error('Error al enviar el carrito:', error);
+    alert('Hubo un problema al conectar con el servidor. Por favor intenta nuevamente.');
+  }
+}
+
+// Renderizar el carrito al cargar la página
+document.addEventListener('DOMContentLoaded', renderCart);
+
+// EVENTO PARA FINALIZAR COMPRA con FETCH
+document.addEventListener("click", (e) => {
+  // Verificar si se hizo click en el botón de finalizar compra
+  if (e.target.id === 'btnFinalizarCompra' ||
+    e.target.textContent.trim() === "Finalizar compra") {
+    e.preventDefault();
+    enviarCarritoAlBackend();
+  }
 });
