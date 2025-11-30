@@ -9,52 +9,55 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = process.env.JWT_SECRET || 'emercado_dev_secret';
+
 const readJSON = (filePath) => {
   try {
-    const data = fs.readFileSync(path.join(__dirname, filePath), 'utf8')
+    const data = fs.readFileSync(path.join(__dirname, filePath), 'utf8');
     return JSON.parse(data);
   } catch (error) {
-    console.error(`Error leyendo archivo ${filePath}:`, error);
+    console.error(`Error al leer el archivo ${filePath}:`, error);
     return null;
   }
-}
+};
 
-//Obtener Categorias
+// Obtener categorías
 app.get('/cats/cat.json', (req, res) => {
   const data = readJSON('data/cats/cat.json');
   if (data) {
     res.json(data);
   } else {
-    res.status(404).json({ error: 'Categorias no encontradas' })
+    res.status(404).json({ error: 'Categorías no encontradas' });
   }
-})
+});
 
-//Obtener productos de una categoria
+// Obtener productos de una categoría
 app.get('/cats_products/:id.json', (req, res) => {
   const categoriaId = req.params.id;
   const data = readJSON(`data/cats_products/${categoriaId}.json`);
   if (data) {
     res.json(data);
   } else {
-    res.status(404).json({ error: 'Categoría no encontrada' })
+    res.status(404).json({ error: 'Categoría no encontrada' });
   }
 });
 
-// Obtener productos especificos
+// Obtener producto específico
 app.get('/products/:id.json', (req, res) => {
   const productId = req.params.id;
-  const data = readJSON(`data/products/${productId}.json`)
+  const data = readJSON(`data/products/${productId}.json`);
   if (data) {
     res.json(data);
   } else {
-    res.status(404).json({ error: 'Producto no encontrado' })
+    res.status(404).json({ error: 'Producto no encontrado' });
   }
 });
 
-//Obtener comentarios
+// Obtener comentarios de un producto
 app.get('/products_comments/:id.json', (req, res) => {
   const productId = req.params.id;
-  const data = readJSON(`data/products_comments/${productId}.json`)
+  const data = readJSON(`data/products_comments/${productId}.json`);
   if (data) {
     res.json(data);
   } else {
@@ -62,14 +65,14 @@ app.get('/products_comments/:id.json', (req, res) => {
   }
 });
 
-// Carrito
+// Carrito de usuario
 app.get('/user_cart/:id.json', (req, res) => {
   const usuarioId = req.params.id;
-  const data = readJSON(`data/user_cart/${usuarioId}.json`)
+  const data = readJSON(`data/user_cart/${usuarioId}.json`);
   if (data) {
     res.json(data);
   } else {
-    res.status(404).json({ error: "No se encontro el carrito" });
+    res.status(404).json({ error: "Carrito no encontrado" });
   }
 });
 
@@ -78,21 +81,21 @@ app.get('/user_cart/:id.json', (req, res) => {
 // ========================================
 app.post('/cart', (req, res) => {
   try {
-    // Obtener los datos del carrito desde el body de la petición
+    // Obtener datos del carrito desde el body
     const { cliente_id, productos, direccion, tipo_envio, forma_pago } = req.body;
 
     // Validaciones básicas
     if (!cliente_id) {
       return res.status(400).json({
         success: false,
-        error: 'El ID del cliente es requerido'
+        error: 'El ID de cliente es obligatorio'
       });
     }
 
     if (!productos || !Array.isArray(productos) || productos.length === 0) {
       return res.status(400).json({
         success: false,
-        error: 'Debe enviar al menos un producto'
+        error: 'Se requiere al menos un producto'
       });
     }
 
@@ -109,21 +112,21 @@ app.post('/cart', (req, res) => {
     if (!direccion || !direccion.departamento || !direccion.calle) {
       return res.status(400).json({
         success: false,
-        error: 'La dirección de envío es incompleta'
+        error: 'La dirección de envío está incompleta'
       });
     }
 
     if (!tipo_envio) {
       return res.status(400).json({
         success: false,
-        error: 'Debe especificar el tipo de envío'
+        error: 'El tipo de envío es obligatorio'
       });
     }
 
     if (!forma_pago) {
       return res.status(400).json({
         success: false,
-        error: 'Debe especificar la forma de pago'
+        error: 'La forma de pago es obligatoria'
       });
     }
 
@@ -143,7 +146,7 @@ app.post('/cart', (req, res) => {
 
     const total = subtotal + costoEnvio;
 
-    // Crear objeto de carrito para guardar
+    // Crear objeto carrito a guardar
     const carrito = {
       id: Date.now(), // ID temporal usando timestamp
       cliente_id,
@@ -171,15 +174,15 @@ app.post('/cart', (req, res) => {
     // Agregar nuevo carrito
     carritos.push(carrito);
 
-    // Guardar en archivo
+    // Escribir en el archivo
     fs.writeFileSync(cartFilePath, JSON.stringify(carritos, null, 2));
 
-    console.log('Carrito guardado exitosamente:', carrito);
+    console.log('Carrito guardado correctamente:', carrito);
 
     // Responder con éxito
     res.status(201).json({
       success: true,
-      message: 'Carrito guardado exitosamente',
+      message: 'Carrito guardado correctamente',
       data: carrito
     });
 
@@ -193,6 +196,7 @@ app.post('/cart', (req, res) => {
   }
 });
 
+// Endpoint raíz de la API
 app.get('/', (req, res) => {
   res.json({
     message: 'Bienvenido a la API de e-Mercado',
@@ -209,7 +213,77 @@ app.get('/', (req, res) => {
   });
 });
 
-// Realizar compra
+// POST /login -> recibe { username, password } en el body
+app.post('/login', (req, res) => {
+  try {
+    const { username, password } = req.body || {};
+
+    if (!username || !password) {
+      return res.status(400).json({
+        success: false,
+        error: 'El nombre de usuario y la contraseña son obligatorios'
+      });
+    }
+
+    // Si existe un archivo de usuarios, validar contra él
+    const usersFile = path.join(__dirname, 'data', 'users.json');
+    let users = null;
+    if (fs.existsSync(usersFile)) {
+      try {
+        users = JSON.parse(fs.readFileSync(usersFile, 'utf8'));
+      } catch (err) {
+        console.warn('No se pudo leer o parsear users.json, usando modo de autenticación permisivo');
+        users = null;
+      }
+    }
+
+    let authenticated = false;
+    let userRecord = null;
+
+    if (users && Array.isArray(users)) {
+      // Formato esperado: [{ username: '...', password: '...', ... }, ...]
+      userRecord = users.find(
+        u =>
+          String(u.username) === String(username) &&
+          String(u.password) === String(password)
+      );
+      authenticated = !!userRecord;
+    } else {
+      // Sin archivo de usuarios: aceptar cualquier credencial no vacía (modo desarrollo)
+      authenticated = true;
+      userRecord = { username };
+    }
+
+    if (!authenticated) {
+      return res.status(401).json({
+        success: false,
+        error: 'Nombre de usuario o contraseña incorrectos'
+      });
+    }
+
+    // Generar token JWT
+    const payload = {
+      username: userRecord.username
+      // Se pueden agregar más "claims" si es necesario
+    };
+
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
+
+    return res.json({
+      success: true,
+      token,
+      user: { username: userRecord.username }
+    });
+  } catch (error) {
+    console.error('Error en el login:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Error interno del servidor'
+    });
+  }
+});
+
+// Ejecutar compra
 app.post('/cart/buy.json', (req, res) => {
   const data = readJSON('emercado-api-main/cart/buy.json');
   if (data) {
