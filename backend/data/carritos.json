@@ -30,5 +30,31 @@
     "total": 3753560,
     "fecha": "2025-11-29T19:23:51.082Z",
     "estado": "completado"
+  },
+  {
+    "id": 1764541002739,
+    "cliente_id": "admin",
+    "productos": [
+      {
+        "id": 50921,
+        "name": "Producto test",
+        "quantity": 1,
+        "cost": 100
+      }
+    ],
+    "direccion": {
+      "departamento": "Montevideo",
+      "localidad": "Centro",
+      "calle": "18 de Julio",
+      "numero": "1234",
+      "esquina": "Andes"
+    },
+    "tipo_envio": "premium",
+    "forma_pago": "tarjeta",
+    "subtotal": 100,
+    "costo_envio": 15,
+    "total": 115,
+    "fecha": "2025-11-30T22:16:42.739Z",
+    "estado": "completado"
   }
 ]

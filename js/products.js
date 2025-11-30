@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const grid = document.getElementById("product-grid");
 
 
-    const API_URL = "http://localhost:3000/cats_products/" + `${catId}.json`;;
+    const API_URL = CATS_PRODUCTS_URL + `${catId}.json`;
 
     fetch(API_URL)
         .then(function (res) {
@@ -64,9 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentSort = null;
 
     const catId = localStorage.getItem("catID") || 101;
-    const API_URL = "http://localhost:3000/cats_products/" + `${catId}.json`;
-    
-   
+    const API_URL = CATS_PRODUCTS_URL + `${catId}.json`;
+
+
 
     fetch(API_URL)
         .then(r => {
@@ -108,8 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
             //Local Storage y Redireccion a producto especifico
             card.addEventListener("click", () => {
-            localStorage.setItem("idProducto", p.id);
-            window.location.href = "./product-info.html";
+                localStorage.setItem("idProducto", p.id);
+                window.location.href = "./product-info.html";
             })
 
             grid.appendChild(card);

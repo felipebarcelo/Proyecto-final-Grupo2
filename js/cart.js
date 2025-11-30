@@ -327,18 +327,10 @@ async function enviarCarritoAlBackend() {
   };
 
   try {
-    // 7) Hacer el fetch al endpoint POST /cart
-    const response = await fetch('http://localhost:3000/cart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(datosCarrito)
-    });
+    // 7) Hacer el fetch al endpoint POST /cart usando autenticación JWT
+    const resultado = await postJSONDataAuth('http://localhost:3001/cart', datosCarrito);
 
-    const resultado = await response.json();
-
-    if (response.ok && resultado.success) {
+    if (resultado.success) {
       alert("¡Compra realizada con éxito! Tu pedido ha sido registrado.");
       console.log('Respuesta del servidor:', resultado);
 

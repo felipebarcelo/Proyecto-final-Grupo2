@@ -2,7 +2,7 @@ const productId = localStorage.getItem("idProducto");
 
 const container = document.getElementById("product-container");
 
-const API_URL = "http://localhost:3000/products/" + productId + ".json";
+const API_URL = PRODUCTS_URL + productId + ".json";
 
 // Variable global para guardar el producto actual
 let currentProduct = null;
