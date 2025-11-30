@@ -342,3 +342,108 @@ body.dark .logout-button {
 
   ;
 }
+/* Dark mode styles for cards */
+body.dark .card {
+  background-color: #2a2a2a !important;
+  border-color: #404040 !important;
+  color: #ffffff !important;
+}
+
+body.dark .card-body {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+}
+
+body.dark .card-title {
+  color: #ffffff !important;
+}
+
+body.dark .card-text {
+  color: #cccccc !important;
+}
+
+body.dark .card-footer {
+  background-color: #202020 !important;
+  border-color: #404040 !important;
+  color: #cccccc !important;
+}
+
+/* Dark mode styles for buttons */
+body.dark .btn-primary {
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
+  color: #ffffff !important;
+}
+
+body.dark .btn-primary:hover {
+  background-color: #0b5ed7 !important;
+  border-color: #0a58ca !important;
+}
+
+body.dark .btn-secondary {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: #ffffff !important;
+}
+
+body.dark .btn-outline-primary {
+  color: #6ea8fe !important;
+  border-color: #6ea8fe !important;
+}
+
+body.dark .btn-outline-primary:hover {
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode styles for footer */
+body.dark footer {
+  background-color: #1a1a1a !important;
+  color: #cccccc !important;
+}
+
+body.dark footer p {
+  color: #cccccc !important;
+}
+
+body.dark footer a {
+  color: #8ab4f8 !important;
+}
+
+body.dark footer a:hover {
+  color: #adc8ff !important;
+}
+
+/* Dark mode styles for list groups */
+body.dark .list-group-item {
+  background-color: #2a2a2a !important;
+  border-color: #404040 !important;
+  color: #ffffff !important;
+}
+
+body.dark .list-group-item:hover {
+  background-color: #333333 !important;
+}
+
+/* Dark mode styles for badges */
+body.dark .badge {
+  background-color: #404040 !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode styles for alerts */
+body.dark .alert {
+  background-color: #2a2a2a !important;
+  border-color: #404040 !important;
+  color: #ffffff !important;
+}
+
+/* Dark mode - Fix for dropdown menu background */
+body.dark .dropdown-menu.show {
+  background-color: #202020 !important;
+}
+
+body.dark .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
