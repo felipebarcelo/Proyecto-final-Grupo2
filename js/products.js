@@ -1,16 +1,17 @@
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
-    // Obtiene el ID de la categoría desde localStorage, por defecto 101 si no existe
     const catId = localStorage.getItem("catID") || 101;
-
     const grid = document.getElementById("product-grid");
 
+    // IMPORTANTE → tu backend usa /cats_products/:id.json
+    const API_URL = "http://localhost:3000/cats_products/" + catId + ".json";
 
-    const API_URL = "http://localhost:3000/cats_products/" + `${catId}.json`;;
+    const token = localStorage.getItem("token");
 
-    fetch(API_URL)
+    fetch(API_URL, {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
         .then(function (res) {
             if (!res.ok) {
                 throw new Error("HTTP " + res.status);
@@ -18,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return res.json();
         })
         .then(function (data) {
-            grid.innerHTML = ""; // Limpia el grid antes de agregar productos
+            grid.innerHTML = "";
 
             var list = Array.isArray(data.products) ? data.products : [];
 
@@ -29,12 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 productCard.innerHTML = `
                     <img src="${p.image}" alt="${p.name}">
                     <h2>${p.name}</h2>
-                    <p>${p.description}</p>del eve
+                    <p>${p.description}</p>
                     <span>Precio: ${p.currency} ${p.cost}</span>
                     <span>${p.soldCount} vendidos</span>
                 `;
-
-
 
                 grid.appendChild(productCard);
             });
@@ -48,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
             grid.innerHTML = "<p style='color:#b00'>No se pudieron cargar los productos.</p>";
         });
 });
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const grid = document.getElementById("product-grid");
@@ -59,16 +59,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const sortDescBtn = document.getElementById("sortDesc");
     const sortRelBtn = document.getElementById("sortRel");
 
-    // ESTADO 
     let masterList = [];
     let currentSort = null;
 
     const catId = localStorage.getItem("catID") || 101;
-    const API_URL = "http://localhost:3000/cats_products/" + `${catId}.json`;
-    
-   
+    const API_URL = "http://localhost:3000/cats_products/" + catId + ".json";
 
-    fetch(API_URL)
+    const token = localStorage.getItem("token");
+
+    fetch(API_URL, {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
         .then(r => {
             if (!r.ok) throw new Error("HTTP " + r.status);
             return r.json();
@@ -82,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error(err);
         });
 
-    // RENDER 
     function render(list) {
         grid.innerHTML = "";
         if (!list.length) {
@@ -93,30 +95,28 @@ document.addEventListener("DOMContentLoaded", () => {
             const card = document.createElement("div");
             card.className = "product-card";
             card.innerHTML = `
-        <div class="product-card__img">
-          <img src="${p.image}" alt="${p.name}">
-        </div>
-        <div class="product-card__body">
-          <h3 class="product-card__title">${p.name}</h3>
-          <p class="product-card__desc">${p.description}</p>
-          <div class="product-card__meta">
-            <span class="product-card__price">${p.currency} ${p.cost}</span>
-            <span class="product-card__sold">${p.soldCount} vendidos</span>
-          </div>
-          <button class="btn btn-buy" type="button">Comprar</button>
-        </div>
-      `;
-            //Local Storage y Redireccion a producto especifico
+                <div class="product-card__img">
+                    <img src="${p.image}" alt="${p.name}">
+                </div>
+                <div class="product-card__body">
+                    <h3 class="product-card__title">${p.name}</h3>
+                    <p class="product-card__desc">${p.description}</p>
+                    <div class="product-card__meta">
+                        <span class="product-card__price">${p.currency} ${p.cost}</span>
+                        <span class="product-card__sold">${p.soldCount} vendidos</span>
+                    </div>
+                    <button class="btn btn-buy" type="button">Comprar</button>
+                </div>
+            `;
             card.addEventListener("click", () => {
-            localStorage.setItem("idProducto", p.id);
-            window.location.href = "./product-info.html";
-            })
+                localStorage.setItem("idProducto", p.id);
+                window.location.href = "./product-info.html";
+            });
 
             grid.appendChild(card);
         });
     }
 
-    // FILTRO
     function getFiltered() {
         const min = Number.parseInt(inputMin?.value, 10);
         const max = Number.parseInt(inputMax?.value, 10);
@@ -129,7 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ORDEN
     function applySort(list) {
         const arr = list.slice();
         if (currentSort === "asc") {
@@ -142,14 +141,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return arr;
     }
 
-    // COMBINAR FILTRO + ORDEN
     function refresh() {
         const filtered = getFiltered();
         const sorted = applySort(filtered);
         render(sorted);
     }
 
-    // EVENTOS 
     btnFilter?.addEventListener("click", (e) => { e.preventDefault(); refresh(); });
 
     [inputMin, inputMax].forEach(inp => {

@@ -28,26 +28,46 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // --- LOGIN ---
-  const form = document.getElementById("login-form");
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+const form = document.getElementById("login-form");
+if (form) {
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-      if (user.trim() !== "" && pass.trim() !== "") {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", user.trim());
-        localStorage.setItem("userEmail", user.trim()); // agregamos: guardamos email/usuario para el dropdown
+    if (username === "" || password === "") {
+      alert("Completa usuario y contraseña");
+      return;
+    }
 
-        console.log("Sesión guardada, redirigiendo a index.html");
-        window.location.replace("index.html");
-      } else {
-        alert("Completa usuario y contraseña");
+    try {
+      const res = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (!res.ok) {
+        alert("Credenciales incorrectas");
+        return;
       }
-    });
-  }
+
+      const data = await res.json();
+      
+      // Guardar token en localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("username", username);
+      localStorage.setItem("userEmail", username);
+
+      window.location.replace("index.html");
+    } catch (error) {
+      console.error(error);
+      alert("Error al conectar con el servidor");
+    }
+  });
+}
 
 
   // --- LOGOUT ---

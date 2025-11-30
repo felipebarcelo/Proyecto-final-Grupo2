@@ -7,9 +7,16 @@ const API_URL = "http://localhost:3000/products/" + productId + ".json";
 // Variable global para guardar el producto actual
 let currentProduct = null;
 
-//fetch para traer los productos
-fetch(API_URL)
-  .then(res => res.json())
+//fetch para traer los productos (con token)
+fetch(API_URL, {
+  headers: {
+    "Authorization": "Bearer " + localStorage.getItem("token")
+  }
+})
+  .then(res => {
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  })
   .then(product => {
     // Guardar el producto en la variable global
     currentProduct = product;
@@ -56,15 +63,12 @@ fetch(API_URL)
       });
     });
 
-
     //Botón comprar
-
     const buyBtn = container.querySelector('.precio-boton .boton-vendidos button') || container.querySelector('button');
     if (buyBtn) {
       buyBtn.addEventListener('click', () => {
         try {
           const CART_KEY = 'cart';
-          //Ver  el estado del carrito desde Local Storage e inicializar como array vacío si es null.
           const stored = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
 
           const item = {
@@ -76,7 +80,6 @@ fetch(API_URL)
             image: product.images && product.images.length ? product.images[0] : ''
           };
 
-          // Buscar si el ítem ya existe
           const idx = stored.findIndex(i => String(i.id) === String(item.id));
           if (idx > -1) {
             stored[idx].count = (stored[idx].count || 0) + 1;
@@ -84,7 +87,6 @@ fetch(API_URL)
             stored.push(item);
           }
 
-          // Actualización de localStorage.
           localStorage.setItem(CART_KEY, JSON.stringify(stored));
 
         } catch (err) {
@@ -94,13 +96,10 @@ fetch(API_URL)
       });
     }
   })
-  //Si hay error
   .catch(error => {
+    console.error(error);
     container.innerHTML = "<p>Error al cargar el producto.</p>";
   });
-
-
-
 
 //Fetch comentarios
 const API_COMMENTS = "https://japceibal.github.io/emercado-api/products_comments/" + productId + ".json";
@@ -148,14 +147,13 @@ fetch(API_COMMENTS)
   })
   .catch(err => console.error(err));
 
-
 // DESAFÍATE 
-const stars = document.querySelectorAll(".star-rating i"); // agarro las estrellas
-const txt = document.querySelector(".calificacion textarea"); // agarro el textarea
-const btn = document.querySelector(".btn-calificacion"); // agarro el botón
-const getList = () => document.querySelector("#comentarios .row") || document.querySelector("#comentarios"); // donde muestro los comentarios
-const KEY = `product-comments-${productId}`; // clave para guardar en localStorage
-let score = 0; // acá guardo el puntaje
+const stars = document.querySelectorAll(".star-rating i");
+const txt = document.querySelector(".calificacion textarea");
+const btn = document.querySelector(".btn-calificacion");
+const getList = () => document.querySelector("#comentarios .row") || document.querySelector("#comentarios");
+const KEY = `product-comments-${productId}`;
+let score = 0;
 
 // función para pintar las estrellas
 function showStars(n) {
@@ -205,13 +203,12 @@ btn?.addEventListener("click", () => {
     score,
     description
   };
-  addCard(c); // lo muestro
+  addCard(c);
   const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
   arr.push(c);
-  localStorage.setItem(KEY, JSON.stringify(arr)); // lo guardo
-  score = 0; showStars(0); txt.value = ""; txt.disabled = true; btn.disabled = true; // limpio todo
+  localStorage.setItem(KEY, JSON.stringify(arr));
+  score = 0; showStars(0); txt.value = ""; txt.disabled = true; btn.disabled = true;
 });
-
 
 // Funcion agregar al carrito
 function addToCart() {
@@ -223,15 +220,12 @@ function addToCart() {
   const CART_KEY = 'cart-products';
   const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
 
-  // Buscar si el producto ya existe en el carrito
   const existingIndex = cart.findIndex(item => item.id === currentProduct.id);
 
   if (existingIndex >= 0) {
-    // Si existe, incrementar cantidad
     cart[existingIndex].quantity += 1;
     alert(`Se agregó otra unidad de "${currentProduct.name}" al carrito`);
   } else {
-    // Si no existe, agregar nuevo producto
     cart.push({
       id: currentProduct.id,
       name: currentProduct.name,
@@ -243,18 +237,14 @@ function addToCart() {
     alert(`"${currentProduct.name}" se agregó al carrito`);
   }
 
-  // Guardar en localStorage
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
-
 
   let confirmacion = confirm("¿Deseas ir al carrito para finalizar la compra?");
 
   if (confirmacion) {
-    // El usuario hizo clic en "Aceptar"
     window.location.href = 'cart.html';
-    // Aquí va el código para eliminar el elemento
   } else {
-    // El usuario hizo clic en "Cancelar"
     window.location.href = 'products.html';
   }
 }
+

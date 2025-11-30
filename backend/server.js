@@ -2,12 +2,51 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+ 
+  if (username === 'admin' && password === '1234') {
+
+    // Generar token
+    const token = jwt.sign({ user: username }, "mi_clave_secreta", {
+      expiresIn: "1h"
+    });
+
+    return res.json({ token });
+  }
+
+  return res.status(401).json({ error: "Credenciales incorrectas" });
+});
+
+// Middleware de autorización
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+
+  // Esperamos: Authorization: Bearer TOKEN
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Token no proporcionado" });
+  }
+
+  jwt.verify(token, "mi_clave_secreta", (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: "Token inválido" });
+    }
+
+    req.user = user; 
+       next(); 
+  });
+};
 
 const readJSON = (filePath) => {
   try {
@@ -20,7 +59,7 @@ const readJSON = (filePath) => {
 }
 
 //Obtener Categorias
-app.get('/cats/cat.json', (req, res) => {
+app.get('/cats/cat.json', verifyToken, (req, res) => {
   const data = readJSON('data/cats/cat.json');
   if (data) {
     res.json(data);
@@ -30,9 +69,10 @@ app.get('/cats/cat.json', (req, res) => {
 })
 
 //Obtener productos de una categoria
-app.get('/cats_products/:id.json', (req, res) => {
+  app.get('/cats_products/:id.json', verifyToken, (req, res) => {
   const categoriaId = req.params.id;
   const data = readJSON(`data/cats_products/${categoriaId}.json`);
+
   if (data) {
     res.json(data);
   } else {
@@ -41,7 +81,7 @@ app.get('/cats_products/:id.json', (req, res) => {
 });
 
 // Obtener productos especificos
-app.get('/products/:id.json', (req, res) => {
+app.get('/products/:id.json', verifyToken, (req, res) => {
   const productId = req.params.id;
   const data = readJSON(`data/products/${productId}.json`)
   if (data) {
@@ -52,7 +92,7 @@ app.get('/products/:id.json', (req, res) => {
 });
 
 //Obtener comentarios
-app.get('/products_comments/:id.json', (req, res) => {
+app.get('/products_comments/:id.json', verifyToken,  (req, res) => {
   const productId = req.params.id;
   const data = readJSON(`data/products_comments/${productId}.json`)
   if (data) {
@@ -63,7 +103,7 @@ app.get('/products_comments/:id.json', (req, res) => {
 });
 
 // Carrito
-app.get('/user_cart/:id.json', (req, res) => {
+app.get('/user_cart/:id.json', verifyToken, (req, res) => {
   const usuarioId = req.params.id;
   const data = readJSON(`data/user_cart/${usuarioId}.json`)
   if (data) {
@@ -76,7 +116,7 @@ app.get('/user_cart/:id.json', (req, res) => {
 // ========================================
 // NUEVO ENDPOINT POST /cart
 // ========================================
-app.post('/cart', (req, res) => {
+app.post('/cart', verifyToken, (req, res) => {
   try {
     // Obtener los datos del carrito desde el body de la petición
     const { cliente_id, productos, direccion, tipo_envio, forma_pago } = req.body;
